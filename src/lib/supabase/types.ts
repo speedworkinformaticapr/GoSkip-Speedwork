@@ -1,2126 +1,660 @@
 // AVOID UPDATING THIS FILE DIRECTLY. It is automatically generated.
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '14.4'
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
-      affiliation_plans: {
-        Row: {
-          benefits: string[] | null
-          created_at: string | null
-          description: string | null
-          duration_months: number | null
-          id: string
-          name: string
-          price: number | null
-          status: string | null
-        }
-        Insert: {
-          benefits?: string[] | null
-          created_at?: string | null
-          description?: string | null
-          duration_months?: number | null
-          id?: string
-          name: string
-          price?: number | null
-          status?: string | null
-        }
-        Update: {
-          benefits?: string[] | null
-          created_at?: string | null
-          description?: string | null
-          duration_months?: number | null
-          id?: string
-          name?: string
-          price?: number | null
-          status?: string | null
-        }
-        Relationships: []
-      }
       appointments: {
         Row: {
-          client_name: string
+          appointment_date: string
           created_at: string
-          date: string
-          end_time: string
-          executed_minutes: number | null
           id: string
-          last_started_at: string | null
-          link_pagamento: string | null
           notes: string | null
-          service_name: string
-          start_time: string
-          status: string
+          service_id: string | null
+          status: string | null
           updated_at: string
-          whatsapp_enviado: boolean | null
-        }
-        Insert: {
-          client_name: string
-          created_at?: string
-          date: string
-          end_time: string
-          executed_minutes?: number | null
-          id?: string
-          last_started_at?: string | null
-          link_pagamento?: string | null
-          notes?: string | null
-          service_name: string
-          start_time: string
-          status?: string
-          updated_at?: string
-          whatsapp_enviado?: boolean | null
-        }
-        Update: {
-          client_name?: string
-          created_at?: string
-          date?: string
-          end_time?: string
-          executed_minutes?: number | null
-          id?: string
-          last_started_at?: string | null
-          link_pagamento?: string | null
-          notes?: string | null
-          service_name?: string
-          start_time?: string
-          status?: string
-          updated_at?: string
-          whatsapp_enviado?: boolean | null
-        }
-        Relationships: []
-      }
-      athlete_attribute_values: {
-        Row: {
-          attribute_id: string
-          avaliador_id: string | null
-          created_at: string | null
-          data_registro: string
-          id: string
-          observacoes: string | null
-          updated_at: string | null
-          user_id: string
-          valor: string
-        }
-        Insert: {
-          attribute_id: string
-          avaliador_id?: string | null
-          created_at?: string | null
-          data_registro?: string
-          id?: string
-          observacoes?: string | null
-          updated_at?: string | null
-          user_id: string
-          valor: string
-        }
-        Update: {
-          attribute_id?: string
-          avaliador_id?: string | null
-          created_at?: string | null
-          data_registro?: string
-          id?: string
-          observacoes?: string | null
-          updated_at?: string | null
-          user_id?: string
-          valor?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'athlete_attribute_values_attribute_id_fkey'
-            columns: ['attribute_id']
-            isOneToOne: false
-            referencedRelation: 'athlete_attributes'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'athlete_attribute_values_avaliador_id_fkey'
-            columns: ['avaliador_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'athlete_attribute_values_user_id_fkey'
-            columns: ['user_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      athlete_attributes: {
-        Row: {
-          ativo: boolean | null
-          created_at: string | null
-          descricao: string | null
-          id: string
-          nome: string
-          tipo_dado: Database['public']['Enums']['tipo_dado_atributo']
-          unidade_medida: string | null
-          valor_maximo: number | null
-          valor_minimo: number | null
-        }
-        Insert: {
-          ativo?: boolean | null
-          created_at?: string | null
-          descricao?: string | null
-          id?: string
-          nome: string
-          tipo_dado?: Database['public']['Enums']['tipo_dado_atributo']
-          unidade_medida?: string | null
-          valor_maximo?: number | null
-          valor_minimo?: number | null
-        }
-        Update: {
-          ativo?: boolean | null
-          created_at?: string | null
-          descricao?: string | null
-          id?: string
-          nome?: string
-          tipo_dado?: Database['public']['Enums']['tipo_dado_atributo']
-          unidade_medida?: string | null
-          valor_maximo?: number | null
-          valor_minimo?: number | null
-        }
-        Relationships: []
-      }
-      athlete_categories: {
-        Row: {
-          active_from: string | null
-          active_to: string | null
-          athlete_id: string | null
-          category_id: string | null
-          id: string
-        }
-        Insert: {
-          active_from?: string | null
-          active_to?: string | null
-          athlete_id?: string | null
-          category_id?: string | null
-          id?: string
-        }
-        Update: {
-          active_from?: string | null
-          active_to?: string | null
-          athlete_id?: string | null
-          category_id?: string | null
-          id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'athlete_categories_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'athlete_categories_category_id_fkey'
-            columns: ['category_id']
-            isOneToOne: false
-            referencedRelation: 'categories'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      athlete_history: {
-        Row: {
-          categoria_anterior: string | null
-          categoria_nova: string | null
-          clube_id_anterior: string | null
-          clube_id_novo: string | null
-          created_at: string | null
-          data_mudanca: string | null
-          id: string
-          motivo: string | null
           user_id: string | null
         }
         Insert: {
-          categoria_anterior?: string | null
-          categoria_nova?: string | null
-          clube_id_anterior?: string | null
-          clube_id_novo?: string | null
-          created_at?: string | null
-          data_mudanca?: string | null
+          appointment_date: string
+          created_at?: string
           id?: string
-          motivo?: string | null
+          notes?: string | null
+          service_id?: string | null
+          status?: string | null
+          updated_at?: string
           user_id?: string | null
         }
         Update: {
-          categoria_anterior?: string | null
-          categoria_nova?: string | null
-          clube_id_anterior?: string | null
-          clube_id_novo?: string | null
-          created_at?: string | null
-          data_mudanca?: string | null
+          appointment_date?: string
+          created_at?: string
           id?: string
-          motivo?: string | null
+          notes?: string | null
+          service_id?: string | null
+          status?: string | null
+          updated_at?: string
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'athlete_history_clube_id_anterior_fkey'
-            columns: ['clube_id_anterior']
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'athlete_history_clube_id_novo_fkey'
-            columns: ['clube_id_novo']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "services"
+            referencedColumns: ["id"]
           },
         ]
       }
-      audit_logs: {
+      athlete_categories: {
         Row: {
-          action: string
-          changed_by: string | null
-          created_at: string | null
+          created_at: string
+          description: string | null
           id: string
-          new_data: Json | null
-          old_data: Json | null
-          record_id: string
-          table_name: string
+          name: string
         }
         Insert: {
-          action: string
-          changed_by?: string | null
-          created_at?: string | null
+          created_at?: string
+          description?: string | null
           id?: string
-          new_data?: Json | null
-          old_data?: Json | null
-          record_id: string
-          table_name: string
+          name: string
         }
         Update: {
-          action?: string
-          changed_by?: string | null
-          created_at?: string | null
+          created_at?: string
+          description?: string | null
           id?: string
-          new_data?: Json | null
-          old_data?: Json | null
-          record_id?: string
-          table_name?: string
+          name?: string
         }
         Relationships: []
       }
-      billing_configuration: {
+      athletes: {
         Row: {
-          auto_generate_enabled: boolean | null
-          created_at: string | null
-          days_before_generation: number | null
-          due_day: number | null
-          due_month: number | null
-          id: string
-          reminder_days_after: number | null
-          reminder_days_before: number | null
-          reminders_enabled: boolean | null
-          tenant_id: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          auto_generate_enabled?: boolean | null
-          created_at?: string | null
-          days_before_generation?: number | null
-          due_day?: number | null
-          due_month?: number | null
-          id?: string
-          reminder_days_after?: number | null
-          reminder_days_before?: number | null
-          reminders_enabled?: boolean | null
-          tenant_id?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          auto_generate_enabled?: boolean | null
-          created_at?: string | null
-          days_before_generation?: number | null
-          due_day?: number | null
-          due_month?: number | null
-          id?: string
-          reminder_days_after?: number | null
-          reminder_days_before?: number | null
-          reminders_enabled?: boolean | null
-          tenant_id?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      billing_logs: {
-        Row: {
-          created_at: string | null
-          error_message: string | null
-          execution_date: string | null
-          id: string
-          status: string | null
-          tenant_id: string | null
-          total_duplicates_avoided: number | null
-          total_generated: number | null
-        }
-        Insert: {
-          created_at?: string | null
-          error_message?: string | null
-          execution_date?: string | null
-          id?: string
-          status?: string | null
-          tenant_id?: string | null
-          total_duplicates_avoided?: number | null
-          total_generated?: number | null
-        }
-        Update: {
-          created_at?: string | null
-          error_message?: string | null
-          execution_date?: string | null
-          id?: string
-          status?: string | null
-          tenant_id?: string | null
-          total_duplicates_avoided?: number | null
-          total_generated?: number | null
-        }
-        Relationships: []
-      }
-      billing_registration_config: {
-        Row: {
-          athlete_registration_amount: number | null
-          charge_on_athlete_registration: boolean | null
-          charge_on_club_registration: boolean | null
-          club_registration_amount: number | null
-          created_at: string | null
-          id: string
-          payment_method: string | null
-          tenant_id: string
-          updated_at: string | null
-        }
-        Insert: {
-          athlete_registration_amount?: number | null
-          charge_on_athlete_registration?: boolean | null
-          charge_on_club_registration?: boolean | null
-          club_registration_amount?: number | null
-          created_at?: string | null
-          id?: string
-          payment_method?: string | null
-          tenant_id?: string
-          updated_at?: string | null
-        }
-        Update: {
-          athlete_registration_amount?: number | null
-          charge_on_athlete_registration?: boolean | null
-          charge_on_club_registration?: boolean | null
-          club_registration_amount?: number | null
-          created_at?: string | null
-          id?: string
-          payment_method?: string | null
-          tenant_id?: string
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      billing_reminders_log: {
-        Row: {
-          athlete_id: string | null
-          charge_id: string | null
-          id: string
-          reminder_type: string
-          sent_at: string
-        }
-        Insert: {
-          athlete_id?: string | null
-          charge_id?: string | null
-          id?: string
-          reminder_type: string
-          sent_at?: string
-        }
-        Update: {
-          athlete_id?: string | null
-          charge_id?: string | null
-          id?: string
-          reminder_type?: string
-          sent_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'billing_reminders_log_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'billing_reminders_log_charge_id_fkey'
-            columns: ['charge_id']
-            isOneToOne: false
-            referencedRelation: 'financial_charges'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      blog_comments: {
-        Row: {
-          author_name: string
-          content: string
+          category_id: string | null
+          club_id: string | null
           created_at: string
           id: string
-          post_id: string | null
-          status: string | null
+          profile_id: string | null
+          ranking_points: number | null
+          updated_at: string
         }
         Insert: {
-          author_name: string
-          content: string
+          category_id?: string | null
+          club_id?: string | null
           created_at?: string
           id?: string
-          post_id?: string | null
-          status?: string | null
+          profile_id?: string | null
+          ranking_points?: number | null
+          updated_at?: string
         }
         Update: {
-          author_name?: string
-          content?: string
+          category_id?: string | null
+          club_id?: string | null
           created_at?: string
           id?: string
-          post_id?: string | null
-          status?: string | null
+          profile_id?: string | null
+          ranking_points?: number | null
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'blog_comments_post_id_fkey'
-            columns: ['post_id']
+            foreignKeyName: "athletes_category_id_fkey"
+            columns: ["category_id"]
             isOneToOne: false
-            referencedRelation: 'blog_posts'
-            referencedColumns: ['id']
+            referencedRelation: "athlete_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "athletes_club_id_fkey"
+            columns: ["club_id"]
+            isOneToOne: false
+            referencedRelation: "clubs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "athletes_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
       blog_posts: {
         Row: {
           author_id: string | null
-          category: string | null
-          conclusion: string | null
           content: string | null
           created_at: string
+          excerpt: string | null
           id: string
           image_url: string | null
-          introduction: string | null
-          is_active: boolean | null
-          published_at: string | null
-          status: string | null
-          summary: string | null
-          tags: Json | null
+          published: boolean | null
+          slug: string
           title: string
+          updated_at: string
         }
         Insert: {
           author_id?: string | null
-          category?: string | null
-          conclusion?: string | null
           content?: string | null
           created_at?: string
+          excerpt?: string | null
           id?: string
           image_url?: string | null
-          introduction?: string | null
-          is_active?: boolean | null
-          published_at?: string | null
-          status?: string | null
-          summary?: string | null
-          tags?: Json | null
+          published?: boolean | null
+          slug: string
           title: string
+          updated_at?: string
         }
         Update: {
           author_id?: string | null
-          category?: string | null
-          conclusion?: string | null
           content?: string | null
           created_at?: string
+          excerpt?: string | null
           id?: string
           image_url?: string | null
-          introduction?: string | null
-          is_active?: boolean | null
-          published_at?: string | null
-          status?: string | null
-          summary?: string | null
-          tags?: Json | null
+          published?: boolean | null
+          slug?: string
           title?: string
-        }
-        Relationships: []
-      }
-      cart_items: {
-        Row: {
-          created_at: string | null
-          id: string
-          product_id: string | null
-          quantity: number | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          product_id?: string | null
-          quantity?: number | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          product_id?: string | null
-          quantity?: number | null
-          user_id?: string | null
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'cart_items_product_id_fkey'
-            columns: ['product_id']
+            foreignKeyName: "blog_posts_author_id_fkey"
+            columns: ["author_id"]
             isOneToOne: false
-            referencedRelation: 'products'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
-      categories: {
+      clubs: {
         Row: {
-          age_range: string | null
           created_at: string
           description: string | null
-          gender: string | null
-          icon: string | null
           id: string
-          max_age: number | null
-          min_age: number | null
+          logo_url: string | null
           name: string
-          status: string | null
+          owner_id: string | null
+          slug: string | null
+          updated_at: string
         }
         Insert: {
-          age_range?: string | null
           created_at?: string
           description?: string | null
-          gender?: string | null
-          icon?: string | null
           id?: string
-          max_age?: number | null
-          min_age?: number | null
+          logo_url?: string | null
           name: string
-          status?: string | null
+          owner_id?: string | null
+          slug?: string | null
+          updated_at?: string
         }
         Update: {
-          age_range?: string | null
           created_at?: string
           description?: string | null
-          gender?: string | null
-          icon?: string | null
           id?: string
-          max_age?: number | null
-          min_age?: number | null
+          logo_url?: string | null
           name?: string
-          status?: string | null
+          owner_id?: string | null
+          slug?: string | null
+          updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "clubs_owner_id_fkey"
+            columns: ["owner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       courses: {
         Row: {
-          club_id: string | null
           created_at: string
           description: string | null
-          difficulty_rating: string | null
-          handicap_rating: number | null
           holes: number | null
           id: string
           image_url: string | null
-          instructor: string | null
+          location: string | null
           name: string
           par: number | null
-          slope_rating: number | null
-          spots: number | null
-          start_date: string | null
-          status: string | null
-        }
-        Insert: {
-          club_id?: string | null
-          created_at?: string
-          description?: string | null
-          difficulty_rating?: string | null
-          handicap_rating?: number | null
-          holes?: number | null
-          id?: string
-          image_url?: string | null
-          instructor?: string | null
-          name: string
-          par?: number | null
-          slope_rating?: number | null
-          spots?: number | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Update: {
-          club_id?: string | null
-          created_at?: string
-          description?: string | null
-          difficulty_rating?: string | null
-          handicap_rating?: number | null
-          holes?: number | null
-          id?: string
-          image_url?: string | null
-          instructor?: string | null
-          name?: string
-          par?: number | null
-          slope_rating?: number | null
-          spots?: number | null
-          start_date?: string | null
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'courses_club_id_fkey'
-            columns: ['club_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      email_logs: {
-        Row: {
-          created_at: string
-          error_message: string | null
-          flow_type: string
-          id: string
-          provider: string | null
-          recipient_email: string
-          status: string
-          subject: string
-        }
-        Insert: {
-          created_at?: string
-          error_message?: string | null
-          flow_type: string
-          id?: string
-          provider?: string | null
-          recipient_email: string
-          status?: string
-          subject: string
-        }
-        Update: {
-          created_at?: string
-          error_message?: string | null
-          flow_type?: string
-          id?: string
-          provider?: string | null
-          recipient_email?: string
-          status?: string
-          subject?: string
-        }
-        Relationships: []
-      }
-      event_photos: {
-        Row: {
-          event_id: string | null
-          id: string
-          photo_url: string
-          uploaded_at: string
-        }
-        Insert: {
-          event_id?: string | null
-          id?: string
-          photo_url: string
-          uploaded_at?: string
-        }
-        Update: {
-          event_id?: string | null
-          id?: string
-          photo_url?: string
-          uploaded_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'event_photos_event_id_fkey'
-            columns: ['event_id']
-            isOneToOne: false
-            referencedRelation: 'events'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      event_registrations: {
-        Row: {
-          athlete_id: string | null
-          created_at: string
-          event_id: string | null
-          id: string
-          registration_date: string
-          status: string | null
-        }
-        Insert: {
-          athlete_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          id?: string
-          registration_date?: string
-          status?: string | null
-        }
-        Update: {
-          athlete_id?: string | null
-          created_at?: string
-          event_id?: string | null
-          id?: string
-          registration_date?: string
-          status?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'event_registrations_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'event_registrations_event_id_fkey'
-            columns: ['event_id']
-            isOneToOne: false
-            referencedRelation: 'events'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      events: {
-        Row: {
-          category: string | null
-          club_id: string | null
-          created_at: string
-          current_participants: number | null
-          date: string | null
-          description: string | null
-          end_date: string | null
-          event_type: string | null
-          id: string
-          image_url: string | null
-          location: string | null
-          max_participants: number | null
-          name: string
-          photos: Json | null
-          post_link: string | null
-          price_registration: number | null
-          price_ticket: number | null
-          regulation_url: string | null
-          status: string | null
-          time: string | null
-        }
-        Insert: {
-          category?: string | null
-          club_id?: string | null
-          created_at?: string
-          current_participants?: number | null
-          date?: string | null
-          description?: string | null
-          end_date?: string | null
-          event_type?: string | null
-          id?: string
-          image_url?: string | null
-          location?: string | null
-          max_participants?: number | null
-          name: string
-          photos?: Json | null
-          post_link?: string | null
-          price_registration?: number | null
-          price_ticket?: number | null
-          regulation_url?: string | null
-          status?: string | null
-          time?: string | null
-        }
-        Update: {
-          category?: string | null
-          club_id?: string | null
-          created_at?: string
-          current_participants?: number | null
-          date?: string | null
-          description?: string | null
-          end_date?: string | null
-          event_type?: string | null
-          id?: string
-          image_url?: string | null
-          location?: string | null
-          max_participants?: number | null
-          name?: string
-          photos?: Json | null
-          post_link?: string | null
-          price_registration?: number | null
-          price_ticket?: number | null
-          regulation_url?: string | null
-          status?: string | null
-          time?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'events_club_id_fkey'
-            columns: ['club_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      financial_charges: {
-        Row: {
-          amount: number
-          athlete_id: string | null
-          category: string | null
-          client_name: string
-          club_id: string | null
-          created_at: string
-          description: string | null
-          document: string | null
-          due_date: string
-          id: string
-          payment_date: string | null
-          status: string
-          type: string | null
-        }
-        Insert: {
-          amount: number
-          athlete_id?: string | null
-          category?: string | null
-          client_name: string
-          club_id?: string | null
-          created_at?: string
-          description?: string | null
-          document?: string | null
-          due_date: string
-          id?: string
-          payment_date?: string | null
-          status?: string
-          type?: string | null
-        }
-        Update: {
-          amount?: number
-          athlete_id?: string | null
-          category?: string | null
-          client_name?: string
-          club_id?: string | null
-          created_at?: string
-          description?: string | null
-          document?: string | null
-          due_date?: string
-          id?: string
-          payment_date?: string | null
-          status?: string
-          type?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'financial_charges_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'financial_charges_club_id_fkey'
-            columns: ['club_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      financial_movements: {
-        Row: {
-          comprovante_url: string | null
-          created_at: string | null
-          data_movimento: string | null
-          descricao: string | null
-          id: string
-          status: string | null
-          tipo_movimento: string | null
-          updated_at: string | null
-          user_id: string | null
-          valor: number | null
-        }
-        Insert: {
-          comprovante_url?: string | null
-          created_at?: string | null
-          data_movimento?: string | null
-          descricao?: string | null
-          id?: string
-          status?: string | null
-          tipo_movimento?: string | null
-          updated_at?: string | null
-          user_id?: string | null
-          valor?: number | null
-        }
-        Update: {
-          comprovante_url?: string | null
-          created_at?: string | null
-          data_movimento?: string | null
-          descricao?: string | null
-          id?: string
-          status?: string | null
-          tipo_movimento?: string | null
-          updated_at?: string | null
-          user_id?: string | null
-          valor?: number | null
-        }
-        Relationships: []
-      }
-      financial_partners: {
-        Row: {
-          created_at: string
-          document: string | null
-          email: string | null
-          id: string
-          name: string
-          phone: string | null
-          status: string | null
-          type: string | null
-        }
-        Insert: {
-          created_at?: string
-          document?: string | null
-          email?: string | null
-          id?: string
-          name: string
-          phone?: string | null
-          status?: string | null
-          type?: string | null
-        }
-        Update: {
-          created_at?: string
-          document?: string | null
-          email?: string | null
-          id?: string
-          name?: string
-          phone?: string | null
-          status?: string | null
-          type?: string | null
-        }
-        Relationships: []
-      }
-      google_ads_cache: {
-        Row: {
-          campaign_id: string
-          campaign_name: string
-          clicks: number | null
-          conversions: number | null
-          cost: number | null
-          date: string
-          id: string
-          impressions: number | null
-          last_updated: string | null
-          user_id: string | null
-        }
-        Insert: {
-          campaign_id: string
-          campaign_name: string
-          clicks?: number | null
-          conversions?: number | null
-          cost?: number | null
-          date?: string
-          id?: string
-          impressions?: number | null
-          last_updated?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          campaign_id?: string
-          campaign_name?: string
-          clicks?: number | null
-          conversions?: number | null
-          cost?: number | null
-          date?: string
-          id?: string
-          impressions?: number | null
-          last_updated?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      hero_carousel: {
-        Row: {
-          button_text: string | null
-          created_at: string
-          description: string | null
-          display_order: number
-          id: string
-          is_published: boolean | null
-          link_url: string | null
-          media_type: string
-          media_url: string
-          title: string | null
           updated_at: string
         }
         Insert: {
-          button_text?: string | null
           created_at?: string
           description?: string | null
-          display_order?: number
+          holes?: number | null
           id?: string
-          is_published?: boolean | null
-          link_url?: string | null
-          media_type?: string
-          media_url: string
-          title?: string | null
+          image_url?: string | null
+          location?: string | null
+          name: string
+          par?: number | null
           updated_at?: string
         }
         Update: {
-          button_text?: string | null
           created_at?: string
           description?: string | null
-          display_order?: number
+          holes?: number | null
           id?: string
-          is_published?: boolean | null
-          link_url?: string | null
-          media_type?: string
-          media_url?: string
-          title?: string | null
+          image_url?: string | null
+          location?: string | null
+          name?: string
+          par?: number | null
           updated_at?: string
         }
         Relationships: []
       }
-      maintenance_config: {
+      gallery: {
         Row: {
-          bg_color: string
-          bg_image_url: string | null
-          created_at: string
-          facebook_url: string | null
-          font_family: string
-          id: string
-          instagram_url: string | null
-          is_active: boolean
-          message: string
-          return_date: string | null
-          text_color: string
-          title: string
-          updated_at: string
-          whatsapp_url: string | null
-        }
-        Insert: {
-          bg_color?: string
-          bg_image_url?: string | null
-          created_at?: string
-          facebook_url?: string | null
-          font_family?: string
-          id?: string
-          instagram_url?: string | null
-          is_active?: boolean
-          message?: string
-          return_date?: string | null
-          text_color?: string
-          title?: string
-          updated_at?: string
-          whatsapp_url?: string | null
-        }
-        Update: {
-          bg_color?: string
-          bg_image_url?: string | null
-          created_at?: string
-          facebook_url?: string | null
-          font_family?: string
-          id?: string
-          instagram_url?: string | null
-          is_active?: boolean
-          message?: string
-          return_date?: string | null
-          text_color?: string
-          title?: string
-          updated_at?: string
-          whatsapp_url?: string | null
-        }
-        Relationships: []
-      }
-      media_items: {
-        Row: {
+          category: string | null
           created_at: string
           description: string | null
-          file_name: string
           id: string
-          tags: string[] | null
-          title: string | null
-          type: string
-          url: string
+          image_url: string
+          title: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
           description?: string | null
-          file_name: string
           id?: string
-          tags?: string[] | null
-          title?: string | null
-          type: string
-          url: string
+          image_url: string
+          title: string
         }
         Update: {
+          category?: string | null
           created_at?: string
           description?: string | null
-          file_name?: string
           id?: string
-          tags?: string[] | null
-          title?: string | null
-          type?: string
-          url?: string
-        }
-        Relationships: []
-      }
-      notifications: {
-        Row: {
-          created_at: string
-          id: string
-          is_read: boolean
-          message: string
-          title: string
-          type: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          is_read?: boolean
-          message: string
-          title: string
-          type?: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          is_read?: boolean
-          message?: string
+          image_url?: string
           title?: string
-          type?: string
-          user_id?: string
         }
         Relationships: []
       }
       order_items: {
         Row: {
+          created_at: string
           id: string
           order_id: string | null
-          price: number | null
+          price: number
           product_id: string | null
-          quantity: number | null
+          quantity: number
         }
         Insert: {
+          created_at?: string
           id?: string
           order_id?: string | null
-          price?: number | null
+          price: number
           product_id?: string | null
-          quantity?: number | null
+          quantity?: number
         }
         Update: {
+          created_at?: string
           id?: string
           order_id?: string | null
-          price?: number | null
+          price?: number
           product_id?: string | null
-          quantity?: number | null
+          quantity?: number
         }
         Relationships: [
           {
-            foreignKeyName: 'order_items_order_id_fkey'
-            columns: ['order_id']
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
             isOneToOne: false
-            referencedRelation: 'orders'
-            referencedColumns: ['id']
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'order_items_product_id_fkey'
-            columns: ['product_id']
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
             isOneToOne: false
-            referencedRelation: 'products'
-            referencedColumns: ['id']
+            referencedRelation: "products"
+            referencedColumns: ["id"]
           },
         ]
       }
       orders: {
         Row: {
-          athlete_id: string | null
           created_at: string
-          delivery_address: string | null
-          discount: number | null
           id: string
-          payment_method: string | null
+          payment_intent_id: string | null
+          shipping_address: Json | null
           status: string | null
-          total_price: number | null
+          total_amount: number
+          updated_at: string
           user_id: string | null
-          whatsapp_enviado: boolean | null
         }
         Insert: {
-          athlete_id?: string | null
           created_at?: string
-          delivery_address?: string | null
-          discount?: number | null
           id?: string
-          payment_method?: string | null
+          payment_intent_id?: string | null
+          shipping_address?: Json | null
           status?: string | null
-          total_price?: number | null
+          total_amount?: number
+          updated_at?: string
           user_id?: string | null
-          whatsapp_enviado?: boolean | null
         }
         Update: {
-          athlete_id?: string | null
           created_at?: string
-          delivery_address?: string | null
-          discount?: number | null
           id?: string
-          payment_method?: string | null
+          payment_intent_id?: string | null
+          shipping_address?: Json | null
           status?: string | null
-          total_price?: number | null
+          total_amount?: number
+          updated_at?: string
           user_id?: string | null
-          whatsapp_enviado?: boolean | null
         }
-        Relationships: [
-          {
-            foreignKeyName: 'orders_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
       pages: {
         Row: {
-          blocks: Json | null
+          content: Json | null
           created_at: string
-          display_order: number
           id: string
-          is_published: boolean | null
-          meta_description: string | null
-          meta_keywords: string | null
-          meta_title: string | null
+          published: boolean | null
           slug: string
-          submenus: Json | null
           title: string
           updated_at: string
         }
         Insert: {
-          blocks?: Json | null
+          content?: Json | null
           created_at?: string
-          display_order?: number
           id?: string
-          is_published?: boolean | null
-          meta_description?: string | null
-          meta_keywords?: string | null
-          meta_title?: string | null
+          published?: boolean | null
           slug: string
-          submenus?: Json | null
           title: string
           updated_at?: string
         }
         Update: {
-          blocks?: Json | null
+          content?: Json | null
           created_at?: string
-          display_order?: number
           id?: string
-          is_published?: boolean | null
-          meta_description?: string | null
-          meta_keywords?: string | null
-          meta_title?: string | null
+          published?: boolean | null
           slug?: string
-          submenus?: Json | null
           title?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      product_groups: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string | null
         }
         Relationships: []
       }
       products: {
         Row: {
-          category: string | null
+          active: boolean | null
           created_at: string
           description: string | null
+          group_id: string | null
           id: string
           image_url: string | null
           name: string
-          price: number | null
-          rating: number | null
-          stock: number | null
+          price: number
+          slug: string | null
+          stock: number
+          updated_at: string
         }
         Insert: {
-          category?: string | null
+          active?: boolean | null
           created_at?: string
           description?: string | null
+          group_id?: string | null
           id?: string
           image_url?: string | null
           name: string
-          price?: number | null
-          rating?: number | null
-          stock?: number | null
+          price?: number
+          slug?: string | null
+          stock?: number
+          updated_at?: string
         }
         Update: {
-          category?: string | null
+          active?: boolean | null
           created_at?: string
           description?: string | null
+          group_id?: string | null
           id?: string
           image_url?: string | null
           name?: string
-          price?: number | null
-          rating?: number | null
-          stock?: number | null
+          price?: number
+          slug?: string | null
+          stock?: number
+          updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "products_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "product_groups"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
-          address: string | null
-          affiliation_status: string | null
-          autoriza_whatsapp: boolean | null
-          birth_date: string | null
-          categoria: string | null
-          category_id: string | null
-          city: string | null
-          club_id: string | null
-          contact: string | null
-          cpf_cnpj: string | null
-          created_at: string | null
-          data_filiacao_clube: string | null
-          data_ultima_movimentacao: string | null
-          deleted_at: string | null
+          avatar_url: string | null
+          created_at: string
           document: string | null
-          documento_identidade: string | null
-          email: string | null
-          financial_status: string | null
-          gender: string | null
-          handicap: number | null
+          email: string
           id: string
-          is_athlete: boolean | null
-          is_client: boolean | null
-          is_club: boolean | null
-          is_club_admin: boolean | null
-          is_supplier: boolean | null
-          logo_url: string | null
           name: string | null
-          nationality: string | null
-          naturalness: string | null
-          numero_registro_federativo: string | null
-          observacoes: string | null
           phone: string | null
-          photo_url: string | null
-          points: number | null
-          rg: string | null
           role: string | null
-          state: string | null
-          status: string | null
-          status_delinquencia: boolean | null
-          subcategoria: string | null
-          telefone_whatsapp: string | null
-          tipo_usuario: string | null
-          user_id: string | null
-          verified: boolean | null
+          updated_at: string
         }
         Insert: {
-          address?: string | null
-          affiliation_status?: string | null
-          autoriza_whatsapp?: boolean | null
-          birth_date?: string | null
-          categoria?: string | null
-          category_id?: string | null
-          city?: string | null
-          club_id?: string | null
-          contact?: string | null
-          cpf_cnpj?: string | null
-          created_at?: string | null
-          data_filiacao_clube?: string | null
-          data_ultima_movimentacao?: string | null
-          deleted_at?: string | null
+          avatar_url?: string | null
+          created_at?: string
           document?: string | null
-          documento_identidade?: string | null
-          email?: string | null
-          financial_status?: string | null
-          gender?: string | null
-          handicap?: number | null
-          id?: string
-          is_athlete?: boolean | null
-          is_client?: boolean | null
-          is_club?: boolean | null
-          is_club_admin?: boolean | null
-          is_supplier?: boolean | null
-          logo_url?: string | null
+          email: string
+          id: string
           name?: string | null
-          nationality?: string | null
-          naturalness?: string | null
-          numero_registro_federativo?: string | null
-          observacoes?: string | null
           phone?: string | null
-          photo_url?: string | null
-          points?: number | null
-          rg?: string | null
           role?: string | null
-          state?: string | null
-          status?: string | null
-          status_delinquencia?: boolean | null
-          subcategoria?: string | null
-          telefone_whatsapp?: string | null
-          tipo_usuario?: string | null
-          user_id?: string | null
-          verified?: boolean | null
+          updated_at?: string
         }
         Update: {
-          address?: string | null
-          affiliation_status?: string | null
-          autoriza_whatsapp?: boolean | null
-          birth_date?: string | null
-          categoria?: string | null
-          category_id?: string | null
-          city?: string | null
-          club_id?: string | null
-          contact?: string | null
-          cpf_cnpj?: string | null
-          created_at?: string | null
-          data_filiacao_clube?: string | null
-          data_ultima_movimentacao?: string | null
-          deleted_at?: string | null
+          avatar_url?: string | null
+          created_at?: string
           document?: string | null
-          documento_identidade?: string | null
-          email?: string | null
-          financial_status?: string | null
-          gender?: string | null
-          handicap?: number | null
+          email?: string
           id?: string
-          is_athlete?: boolean | null
-          is_client?: boolean | null
-          is_club?: boolean | null
-          is_club_admin?: boolean | null
-          is_supplier?: boolean | null
-          logo_url?: string | null
           name?: string | null
-          nationality?: string | null
-          naturalness?: string | null
-          numero_registro_federativo?: string | null
-          observacoes?: string | null
           phone?: string | null
-          photo_url?: string | null
-          points?: number | null
-          rg?: string | null
           role?: string | null
-          state?: string | null
-          status?: string | null
-          status_delinquencia?: boolean | null
-          subcategoria?: string | null
-          telefone_whatsapp?: string | null
-          tipo_usuario?: string | null
-          user_id?: string | null
-          verified?: boolean | null
+          updated_at?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: 'profiles_club_id_fkey'
-            columns: ['club_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
+        Relationships: []
       }
-      publish_logs: {
+      quotes: {
         Row: {
           created_at: string
-          created_by: string | null
-          error_details: string | null
+          details: string | null
+          estimated_price: number | null
           id: string
-          message: string
-          status: string
+          service_id: string | null
+          status: string | null
+          updated_at: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
-          created_by?: string | null
-          error_details?: string | null
+          details?: string | null
+          estimated_price?: number | null
           id?: string
-          message: string
-          status: string
+          service_id?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
-          created_by?: string | null
-          error_details?: string | null
+          details?: string | null
+          estimated_price?: number | null
           id?: string
-          message?: string
-          status?: string
-        }
-        Relationships: []
-      }
-      rankings: {
-        Row: {
-          athlete_id: string | null
-          club_points: number | null
-          club_ranking: number | null
-          fbfg_points: number | null
-          fifg_points: number | null
-          fpfg_points: number | null
-          id: string
-          national_ranking: number | null
-          points: number | null
-          state_ranking: number | null
-          updated_at: string | null
-          world_ranking: number | null
-        }
-        Insert: {
-          athlete_id?: string | null
-          club_points?: number | null
-          club_ranking?: number | null
-          fbfg_points?: number | null
-          fifg_points?: number | null
-          fpfg_points?: number | null
-          id?: string
-          national_ranking?: number | null
-          points?: number | null
-          state_ranking?: number | null
-          updated_at?: string | null
-          world_ranking?: number | null
-        }
-        Update: {
-          athlete_id?: string | null
-          club_points?: number | null
-          club_ranking?: number | null
-          fbfg_points?: number | null
-          fifg_points?: number | null
-          fpfg_points?: number | null
-          id?: string
-          national_ranking?: number | null
-          points?: number | null
-          state_ranking?: number | null
-          updated_at?: string | null
-          world_ranking?: number | null
+          service_id?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: 'rankings_athlete_id_fkey'
-            columns: ['athlete_id']
-            isOneToOne: true
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      registration_payments: {
-        Row: {
-          data_criacao: string | null
-          data_pagamento: string | null
-          entity_id: string
-          entity_type: string
-          id: string
-          metodo_pagamento: string
-          payment_intent_id: string | null
-          status: string
-          tenant_id: string
-          valor: number
-        }
-        Insert: {
-          data_criacao?: string | null
-          data_pagamento?: string | null
-          entity_id: string
-          entity_type: string
-          id?: string
-          metodo_pagamento: string
-          payment_intent_id?: string | null
-          status?: string
-          tenant_id?: string
-          valor: number
-        }
-        Update: {
-          data_criacao?: string | null
-          data_pagamento?: string | null
-          entity_id?: string
-          entity_type?: string
-          id?: string
-          metodo_pagamento?: string
-          payment_intent_id?: string | null
-          status?: string
-          tenant_id?: string
-          valor?: number
-        }
-        Relationships: []
-      }
-      rule_versions: {
-        Row: {
-          content: string | null
-          created_at: string | null
-          created_by: string | null
-          id: string
-          rule_id: string | null
-          version: string
-        }
-        Insert: {
-          content?: string | null
-          created_at?: string | null
-          created_by?: string | null
-          id?: string
-          rule_id?: string | null
-          version: string
-        }
-        Update: {
-          content?: string | null
-          created_at?: string | null
-          created_by?: string | null
-          id?: string
-          rule_id?: string | null
-          version?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'rule_versions_rule_id_fkey'
-            columns: ['rule_id']
+            foreignKeyName: "quotes_service_id_fkey"
+            columns: ["service_id"]
             isOneToOne: false
-            referencedRelation: 'rules'
-            referencedColumns: ['id']
+            referencedRelation: "services"
+            referencedColumns: ["id"]
           },
         ]
       }
       rules: {
         Row: {
-          category: string | null
-          created_at: string | null
-          description: string | null
-          id: string
-          status: string | null
-          title: string
-          updated_at: string | null
-          version: string | null
-        }
-        Insert: {
-          category?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          status?: string | null
-          title: string
-          updated_at?: string | null
-          version?: string | null
-        }
-        Update: {
-          category?: string | null
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          status?: string | null
-          title?: string
-          updated_at?: string | null
-          version?: string | null
-        }
-        Relationships: []
-      }
-      sections: {
-        Row: {
+          content: string | null
           created_at: string
-          data: Json | null
-          display_order: number
           id: string
-          is_published: boolean | null
-          type: string
+          order_index: number | null
+          title: string
           updated_at: string
         }
         Insert: {
+          content?: string | null
           created_at?: string
-          data?: Json | null
-          display_order?: number
           id?: string
-          is_published?: boolean | null
-          type: string
+          order_index?: number | null
+          title: string
           updated_at?: string
         }
         Update: {
+          content?: string | null
           created_at?: string
-          data?: Json | null
-          display_order?: number
           id?: string
-          is_published?: boolean | null
-          type?: string
+          order_index?: number | null
+          title?: string
           updated_at?: string
         }
         Relationships: []
       }
       services: {
         Row: {
-          created_at: string | null
+          active: boolean | null
+          created_at: string
           description: string | null
-          execution_time_minutes: number
+          duration_minutes: number | null
           id: string
           name: string
           price: number | null
-          status: string | null
+          updated_at: string
         }
         Insert: {
-          created_at?: string | null
+          active?: boolean | null
+          created_at?: string
           description?: string | null
-          execution_time_minutes?: number
+          duration_minutes?: number | null
           id?: string
           name: string
           price?: number | null
-          status?: string | null
+          updated_at?: string
         }
         Update: {
-          created_at?: string | null
+          active?: boolean | null
+          created_at?: string
           description?: string | null
-          execution_time_minutes?: number
+          duration_minutes?: number | null
           id?: string
           name?: string
           price?: number | null
-          status?: string | null
+          updated_at?: string
         }
         Relationships: []
       }
-      stripe_config: {
+      tournaments: {
         Row: {
-          card_fee_fixed: number | null
-          card_fee_percentage: number | null
-          created_at: string | null
-          id: string
-          pass_fees_to_customer: boolean | null
-          pix_enabled: boolean | null
-          public_key: string | null
-          secret_key: string | null
-          tenant_id: string
-          updated_at: string | null
-          webhook_secret: string | null
-        }
-        Insert: {
-          card_fee_fixed?: number | null
-          card_fee_percentage?: number | null
-          created_at?: string | null
-          id?: string
-          pass_fees_to_customer?: boolean | null
-          pix_enabled?: boolean | null
-          public_key?: string | null
-          secret_key?: string | null
-          tenant_id?: string
-          updated_at?: string | null
-          webhook_secret?: string | null
-        }
-        Update: {
-          card_fee_fixed?: number | null
-          card_fee_percentage?: number | null
-          created_at?: string | null
-          id?: string
-          pass_fees_to_customer?: boolean | null
-          pix_enabled?: boolean | null
-          public_key?: string | null
-          secret_key?: string | null
-          tenant_id?: string
-          updated_at?: string | null
-          webhook_secret?: string | null
-        }
-        Relationships: []
-      }
-      stripe_payments: {
-        Row: {
-          atleta_id: string | null
-          charge_id: string | null
-          data_criacao: string | null
-          data_pagamento: string | null
-          id: string
-          metodo_pagamento: string
-          payment_intent_id: string | null
-          status: string
-          tenant_id: string
-          valor: number
-        }
-        Insert: {
-          atleta_id?: string | null
-          charge_id?: string | null
-          data_criacao?: string | null
-          data_pagamento?: string | null
-          id?: string
-          metodo_pagamento: string
-          payment_intent_id?: string | null
-          status?: string
-          tenant_id?: string
-          valor: number
-        }
-        Update: {
-          atleta_id?: string | null
-          charge_id?: string | null
-          data_criacao?: string | null
-          data_pagamento?: string | null
-          id?: string
-          metodo_pagamento?: string
-          payment_intent_id?: string | null
-          status?: string
-          tenant_id?: string
-          valor?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'stripe_payments_atleta_id_fkey'
-            columns: ['atleta_id']
-            isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'stripe_payments_charge_id_fkey'
-            columns: ['charge_id']
-            isOneToOne: false
-            referencedRelation: 'financial_charges'
-            referencedColumns: ['id']
-          },
-        ]
-      }
-      system_data: {
-        Row: {
-          address_city: string | null
-          address_complement: string | null
-          address_number: string | null
-          address_state: string | null
-          address_street: string | null
-          address_zip: string | null
-          ai_context: string | null
-          bg_image_url: string | null
-          bg_opacity: number | null
-          browser_icon_url: string | null
-          business_hours: Json | null
-          cnpj: string | null
-          dark_mode: boolean | null
-          email: string | null
-          id: string
-          integrations: Json | null
-          language: string | null
-          libras_enabled: boolean | null
-          logo_url: string | null
-          menu_logo_size: number | null
-          mobile: string | null
-          phone: string | null
-          platform_name: string | null
-          quote_footer_text: string | null
-          razao_social: string | null
-          records_per_page: number | null
-          responsible_cpf: string | null
-          responsible_email: string | null
-          responsible_name: string | null
-          responsible_phone: string | null
-          responsible_role: string | null
-          session_lifetime: number | null
-          show_cnpj: boolean | null
-          show_contact_bar: boolean | null
-          slogan: string | null
-          terms: Json | null
-          two_factor_auth: boolean | null
-          two_factor_method: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          address_city?: string | null
-          address_complement?: string | null
-          address_number?: string | null
-          address_state?: string | null
-          address_street?: string | null
-          address_zip?: string | null
-          ai_context?: string | null
-          bg_image_url?: string | null
-          bg_opacity?: number | null
-          browser_icon_url?: string | null
-          business_hours?: Json | null
-          cnpj?: string | null
-          dark_mode?: boolean | null
-          email?: string | null
-          id?: string
-          integrations?: Json | null
-          language?: string | null
-          libras_enabled?: boolean | null
-          logo_url?: string | null
-          menu_logo_size?: number | null
-          mobile?: string | null
-          phone?: string | null
-          platform_name?: string | null
-          quote_footer_text?: string | null
-          razao_social?: string | null
-          records_per_page?: number | null
-          responsible_cpf?: string | null
-          responsible_email?: string | null
-          responsible_name?: string | null
-          responsible_phone?: string | null
-          responsible_role?: string | null
-          session_lifetime?: number | null
-          show_cnpj?: boolean | null
-          show_contact_bar?: boolean | null
-          slogan?: string | null
-          terms?: Json | null
-          two_factor_auth?: boolean | null
-          two_factor_method?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          address_city?: string | null
-          address_complement?: string | null
-          address_number?: string | null
-          address_state?: string | null
-          address_street?: string | null
-          address_zip?: string | null
-          ai_context?: string | null
-          bg_image_url?: string | null
-          bg_opacity?: number | null
-          browser_icon_url?: string | null
-          business_hours?: Json | null
-          cnpj?: string | null
-          dark_mode?: boolean | null
-          email?: string | null
-          id?: string
-          integrations?: Json | null
-          language?: string | null
-          libras_enabled?: boolean | null
-          logo_url?: string | null
-          menu_logo_size?: number | null
-          mobile?: string | null
-          phone?: string | null
-          platform_name?: string | null
-          quote_footer_text?: string | null
-          razao_social?: string | null
-          records_per_page?: number | null
-          responsible_cpf?: string | null
-          responsible_email?: string | null
-          responsible_name?: string | null
-          responsible_phone?: string | null
-          responsible_role?: string | null
-          session_lifetime?: number | null
-          show_cnpj?: boolean | null
-          show_contact_bar?: boolean | null
-          slogan?: string | null
-          terms?: Json | null
-          two_factor_auth?: boolean | null
-          two_factor_method?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      user_roles: {
-        Row: {
+          course_id: string | null
           created_at: string
+          description: string | null
+          end_date: string | null
           id: string
-          role: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          role: string
-          user_id: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          role?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      whatsapp_config: {
-        Row: {
-          account_sid: string | null
-          api_provider: string | null
-          auth_token: string | null
-          created_at: string | null
-          empresa_id: string | null
-          id: string
-          is_active: boolean | null
-          is_production: boolean | null
-          phone_number: string | null
-        }
-        Insert: {
-          account_sid?: string | null
-          api_provider?: string | null
-          auth_token?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
-          id?: string
-          is_active?: boolean | null
-          is_production?: boolean | null
-          phone_number?: string | null
-        }
-        Update: {
-          account_sid?: string | null
-          api_provider?: string | null
-          auth_token?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
-          id?: string
-          is_active?: boolean | null
-          is_production?: boolean | null
-          phone_number?: string | null
-        }
-        Relationships: []
-      }
-      whatsapp_logs: {
-        Row: {
-          cliente_id: string | null
-          created_at: string | null
-          empresa_id: string | null
-          id: string
-          resposta_api: Json | null
+          registration_fee: number | null
+          slug: string | null
+          start_date: string | null
           status: string | null
-          telefone: string | null
-          tipo_mensagem: string | null
+          title: string
+          updated_at: string
         }
         Insert: {
-          cliente_id?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
           id?: string
-          resposta_api?: Json | null
+          registration_fee?: number | null
+          slug?: string | null
+          start_date?: string | null
           status?: string | null
-          telefone?: string | null
-          tipo_mensagem?: string | null
+          title: string
+          updated_at?: string
         }
         Update: {
-          cliente_id?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
+          course_id?: string | null
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
           id?: string
-          resposta_api?: Json | null
+          registration_fee?: number | null
+          slug?: string | null
+          start_date?: string | null
           status?: string | null
-          telefone?: string | null
-          tipo_mensagem?: string | null
+          title?: string
+          updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'whatsapp_logs_cliente_id_fkey'
-            columns: ['cliente_id']
+            foreignKeyName: "tournaments_course_id_fkey"
+            columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
           },
         ]
-      }
-      whatsapp_templates: {
-        Row: {
-          conteudo: string | null
-          created_at: string | null
-          empresa_id: string | null
-          id: string
-          is_active: boolean | null
-          tipo_mensagem: string | null
-          titulo: string | null
-          variaveis: Json | null
-        }
-        Insert: {
-          conteudo?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
-          id?: string
-          is_active?: boolean | null
-          tipo_mensagem?: string | null
-          titulo?: string | null
-          variaveis?: Json | null
-        }
-        Update: {
-          conteudo?: string | null
-          created_at?: string | null
-          empresa_id?: string | null
-          id?: string
-          is_active?: boolean | null
-          tipo_mensagem?: string | null
-          titulo?: string | null
-          variaveis?: Json | null
-        }
-        Relationships: []
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      delete_user_admin: {
-        Args: { target_user_id: string }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
-      tipo_dado_atributo: 'numero' | 'texto' | 'percentual' | 'booleano'
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -2128,31 +662,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -2161,23 +697,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -2186,23 +722,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -2211,45 +747,44 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema['Enums']
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
-    Enums: {
-      tipo_dado_atributo: ['numero', 'texto', 'percentual', 'booleano'],
-    },
+    Enums: {},
   },
 } as const
+
 
 // ====== DATABASE EXTENDED CONTEXT (auto-generated) ======
 // This section contains actual PostgreSQL column types, constraints, RLS policies,
@@ -2261,1268 +796,327 @@ export const Constants = {
 // --- COLUMN TYPES (actual PostgreSQL types) ---
 // Use this to know the real database type when writing migrations.
 // "string" in TypeScript types above may be uuid, text, varchar, timestamptz, etc.
-// Table: affiliation_plans
-//   id: uuid (not null, default: gen_random_uuid())
-//   name: text (not null)
-//   description: text (nullable)
-//   benefits: _text (nullable)
-//   price: numeric (nullable, default: 0)
-//   duration_months: integer (nullable, default: 12)
-//   status: text (nullable, default: 'active'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
 // Table: appointments
 //   id: uuid (not null, default: gen_random_uuid())
-//   date: date (not null)
-//   start_time: time without time zone (not null)
-//   end_time: time without time zone (not null)
-//   service_name: text (not null)
-//   client_name: text (not null)
-//   status: text (not null, default: 'Pendente'::text)
+//   user_id: uuid (nullable)
+//   service_id: uuid (nullable)
+//   appointment_date: timestamp with time zone (not null)
+//   status: text (nullable, default: 'scheduled'::text)
 //   notes: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
-//   executed_minutes: integer (nullable, default: 0)
-//   last_started_at: timestamp with time zone (nullable)
-//   whatsapp_enviado: boolean (nullable, default: false)
-//   link_pagamento: text (nullable)
-// Table: athlete_attribute_values
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (not null)
-//   attribute_id: uuid (not null)
-//   valor: text (not null)
-//   data_registro: timestamp with time zone (not null, default: now())
-//   avaliador_id: uuid (nullable)
-//   observacoes: text (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-// Table: athlete_attributes
-//   id: uuid (not null, default: gen_random_uuid())
-//   nome: character varying (not null)
-//   descricao: text (nullable)
-//   tipo_dado: tipo_dado_atributo (not null, default: 'numero'::tipo_dado_atributo)
-//   unidade_medida: character varying (nullable)
-//   valor_minimo: numeric (nullable)
-//   valor_maximo: numeric (nullable)
-//   ativo: boolean (nullable, default: true)
-//   created_at: timestamp with time zone (nullable, default: now())
 // Table: athlete_categories
 //   id: uuid (not null, default: gen_random_uuid())
-//   athlete_id: uuid (nullable)
-//   category_id: uuid (nullable)
-//   active_from: date (nullable)
-//   active_to: date (nullable)
-// Table: athlete_history
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (nullable)
-//   clube_id_anterior: uuid (nullable)
-//   clube_id_novo: uuid (nullable)
-//   categoria_anterior: text (nullable)
-//   categoria_nova: text (nullable)
-//   data_mudanca: timestamp with time zone (nullable, default: now())
-//   motivo: text (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: audit_logs
-//   id: uuid (not null, default: gen_random_uuid())
-//   table_name: text (not null)
-//   record_id: uuid (not null)
-//   action: text (not null)
-//   old_data: jsonb (nullable)
-//   new_data: jsonb (nullable)
-//   changed_by: uuid (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: billing_configuration
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (nullable, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   auto_generate_enabled: boolean (nullable, default: false)
-//   due_day: integer (nullable)
-//   due_month: integer (nullable)
-//   days_before_generation: integer (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-//   reminders_enabled: boolean (nullable, default: false)
-//   reminder_days_before: integer (nullable, default: 3)
-//   reminder_days_after: integer (nullable, default: 5)
-// Table: billing_logs
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (nullable, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   execution_date: timestamp with time zone (nullable, default: now())
-//   status: text (nullable)
-//   total_generated: integer (nullable, default: 0)
-//   total_duplicates_avoided: integer (nullable, default: 0)
-//   error_message: text (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: billing_registration_config
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (not null, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   charge_on_athlete_registration: boolean (nullable, default: false)
-//   charge_on_club_registration: boolean (nullable, default: false)
-//   athlete_registration_amount: numeric (nullable, default: 0)
-//   club_registration_amount: numeric (nullable, default: 0)
-//   payment_method: text (nullable, default: 'both'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-// Table: billing_reminders_log
-//   id: uuid (not null, default: gen_random_uuid())
-//   charge_id: uuid (nullable)
-//   athlete_id: uuid (nullable)
-//   reminder_type: text (not null)
-//   sent_at: timestamp with time zone (not null, default: now())
-// Table: blog_comments
-//   id: uuid (not null, default: gen_random_uuid())
-//   post_id: uuid (nullable)
-//   author_name: text (not null)
-//   content: text (not null)
-//   status: text (nullable, default: 'pending'::text)
+//   name: text (not null)
+//   description: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
+// Table: athletes
+//   id: uuid (not null, default: gen_random_uuid())
+//   profile_id: uuid (nullable)
+//   club_id: uuid (nullable)
+//   category_id: uuid (nullable)
+//   ranking_points: integer (nullable, default: 0)
+//   created_at: timestamp with time zone (not null, default: now())
+//   updated_at: timestamp with time zone (not null, default: now())
 // Table: blog_posts
 //   id: uuid (not null, default: gen_random_uuid())
 //   title: text (not null)
+//   slug: text (not null)
 //   content: text (nullable)
-//   category: text (nullable)
-//   author_id: uuid (nullable)
-//   published_at: timestamp with time zone (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
+//   excerpt: text (nullable)
 //   image_url: text (nullable)
-//   summary: text (nullable)
-//   tags: jsonb (nullable, default: '[]'::jsonb)
-//   introduction: text (nullable)
-//   conclusion: text (nullable)
-//   status: text (nullable, default: 'draft'::text)
-//   is_active: boolean (nullable, default: true)
-// Table: cart_items
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (nullable)
-//   product_id: uuid (nullable)
-//   quantity: integer (nullable, default: 1)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: categories
+//   author_id: uuid (nullable)
+//   published: boolean (nullable, default: false)
+//   created_at: timestamp with time zone (not null, default: now())
+//   updated_at: timestamp with time zone (not null, default: now())
+// Table: clubs
 //   id: uuid (not null, default: gen_random_uuid())
 //   name: text (not null)
-//   age_range: text (nullable)
-//   gender: text (nullable)
+//   slug: text (nullable)
+//   logo_url: text (nullable)
 //   description: text (nullable)
+//   owner_id: uuid (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
-//   min_age: integer (nullable)
-//   max_age: integer (nullable)
-//   icon: text (nullable)
-//   status: text (nullable, default: 'active'::text)
+//   updated_at: timestamp with time zone (not null, default: now())
 // Table: courses
 //   id: uuid (not null, default: gen_random_uuid())
-//   club_id: uuid (nullable)
 //   name: text (not null)
-//   holes: integer (nullable)
-//   par: integer (nullable)
-//   difficulty_rating: text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
-//   handicap_rating: numeric (nullable)
-//   slope_rating: integer (nullable)
-//   status: text (nullable, default: 'active'::text)
-//   description: text (nullable)
-//   instructor: text (nullable)
-//   start_date: date (nullable)
-//   spots: integer (nullable)
-//   image_url: text (nullable)
-// Table: email_logs
-//   id: uuid (not null, default: gen_random_uuid())
-//   recipient_email: text (not null)
-//   subject: text (not null)
-//   flow_type: text (not null)
-//   status: text (not null, default: 'enviado'::text)
-//   provider: text (nullable)
-//   error_message: text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
-// Table: event_photos
-//   id: uuid (not null, default: gen_random_uuid())
-//   event_id: uuid (nullable)
-//   photo_url: text (not null)
-//   uploaded_at: timestamp with time zone (not null, default: now())
-// Table: event_registrations
-//   id: uuid (not null, default: gen_random_uuid())
-//   event_id: uuid (nullable)
-//   athlete_id: uuid (nullable)
-//   status: text (nullable)
-//   registration_date: timestamp with time zone (not null, default: now())
-//   created_at: timestamp with time zone (not null, default: now())
-// Table: events
-//   id: uuid (not null, default: gen_random_uuid())
-//   name: text (not null)
-//   date: date (nullable)
-//   time: time without time zone (nullable)
 //   location: text (nullable)
-//   description: text (nullable)
-//   max_participants: integer (nullable)
-//   current_participants: integer (nullable, default: 0)
-//   category: text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
+//   holes: integer (nullable, default: 18)
+//   par: integer (nullable, default: 72)
 //   image_url: text (nullable)
-//   club_id: uuid (nullable)
-//   status: text (nullable, default: 'published'::text)
-//   end_date: date (nullable)
-//   regulation_url: text (nullable)
-//   price_registration: numeric (nullable, default: 0)
-//   price_ticket: numeric (nullable, default: 0)
-//   photos: jsonb (nullable, default: '[]'::jsonb)
-//   post_link: text (nullable)
-//   event_type: text (nullable)
-// Table: financial_charges
-//   id: uuid (not null, default: gen_random_uuid())
-//   client_name: text (not null)
-//   amount: numeric (not null)
-//   due_date: date (not null)
 //   description: text (nullable)
-//   status: text (not null, default: 'pendente'::text)
-//   created_at: timestamp with time zone (not null, default: now())
-//   type: text (nullable, default: 'receivable'::text)
-//   category: text (nullable, default: 'general'::text)
-//   document: text (nullable)
-//   payment_date: date (nullable)
-//   athlete_id: uuid (nullable)
-//   club_id: uuid (nullable)
-// Table: financial_movements
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (nullable)
-//   tipo_movimento: text (nullable)
-//   valor: numeric (nullable)
-//   data_movimento: timestamp with time zone (nullable, default: now())
-//   descricao: text (nullable)
-//   comprovante_url: text (nullable)
-//   status: text (nullable, default: 'pendente'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-// Table: financial_partners
-//   id: uuid (not null, default: gen_random_uuid())
-//   name: text (not null)
-//   document: text (nullable)
-//   type: text (nullable, default: 'client'::text)
-//   email: text (nullable)
-//   phone: text (nullable)
-//   status: text (nullable, default: 'active'::text)
-//   created_at: timestamp with time zone (not null, default: now())
-// Table: google_ads_cache
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (nullable)
-//   campaign_id: text (not null)
-//   campaign_name: text (not null)
-//   impressions: integer (nullable, default: 0)
-//   clicks: integer (nullable, default: 0)
-//   cost: numeric (nullable, default: 0)
-//   conversions: integer (nullable, default: 0)
-//   date: date (not null, default: CURRENT_DATE)
-//   last_updated: timestamp with time zone (nullable, default: now())
-// Table: hero_carousel
-//   id: uuid (not null, default: gen_random_uuid())
-//   title: text (nullable)
-//   description: text (nullable)
-//   media_type: text (not null, default: 'image'::text)
-//   media_url: text (not null)
-//   link_url: text (nullable)
-//   button_text: text (nullable)
-//   display_order: integer (not null, default: 0)
-//   is_published: boolean (nullable, default: true)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
-// Table: maintenance_config
+// Table: gallery
 //   id: uuid (not null, default: gen_random_uuid())
-//   is_active: boolean (not null, default: false)
-//   title: text (not null, default: 'Estamos em Manutenção'::text)
-//   message: text (not null, default: 'Estamos trabalhando para melhorar sua experiência. Voltaremos em breve!'::text)
-//   return_date: timestamp with time zone (nullable)
-//   bg_color: text (not null, default: '#ffffff'::text)
-//   text_color: text (not null, default: '#333333'::text)
-//   font_family: text (not null, default: 'sans-serif'::text)
-//   bg_image_url: text (nullable)
-//   whatsapp_url: text (nullable)
-//   instagram_url: text (nullable)
-//   facebook_url: text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
-//   updated_at: timestamp with time zone (not null, default: now())
-// Table: media_items
-//   id: uuid (not null, default: gen_random_uuid())
-//   file_name: text (not null)
-//   url: text (not null)
-//   type: text (not null)
-//   title: text (nullable)
-//   description: text (nullable)
-//   tags: _text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
-// Table: notifications
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (not null)
 //   title: text (not null)
-//   message: text (not null)
-//   type: text (not null, default: 'system'::text)
-//   is_read: boolean (not null, default: false)
+//   image_url: text (not null)
+//   description: text (nullable)
+//   category: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 // Table: order_items
 //   id: uuid (not null, default: gen_random_uuid())
 //   order_id: uuid (nullable)
 //   product_id: uuid (nullable)
-//   quantity: integer (nullable)
-//   price: numeric (nullable)
+//   quantity: integer (not null, default: 1)
+//   price: numeric (not null)
+//   created_at: timestamp with time zone (not null, default: now())
 // Table: orders
 //   id: uuid (not null, default: gen_random_uuid())
-//   athlete_id: uuid (nullable)
-//   total_price: numeric (nullable)
-//   status: text (nullable)
-//   created_at: timestamp with time zone (not null, default: now())
 //   user_id: uuid (nullable)
-//   delivery_address: text (nullable)
-//   payment_method: text (nullable)
-//   discount: numeric (nullable, default: 0)
-//   whatsapp_enviado: boolean (nullable, default: false)
+//   status: text (nullable, default: 'pending'::text)
+//   total_amount: numeric (not null, default: 0)
+//   payment_intent_id: text (nullable)
+//   shipping_address: jsonb (nullable)
+//   created_at: timestamp with time zone (not null, default: now())
+//   updated_at: timestamp with time zone (not null, default: now())
 // Table: pages
 //   id: uuid (not null, default: gen_random_uuid())
 //   slug: text (not null)
 //   title: text (not null)
-//   meta_title: text (nullable)
-//   meta_description: text (nullable)
-//   meta_keywords: text (nullable)
-//   blocks: jsonb (nullable, default: '[]'::jsonb)
-//   is_published: boolean (nullable, default: false)
+//   content: jsonb (nullable, default: '{}'::jsonb)
+//   published: boolean (nullable, default: false)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
-//   display_order: integer (not null, default: 0)
-//   submenus: jsonb (nullable, default: '[]'::jsonb)
+// Table: product_groups
+//   id: uuid (not null, default: gen_random_uuid())
+//   name: text (not null)
+//   slug: text (nullable)
+//   description: text (nullable)
+//   created_at: timestamp with time zone (not null, default: now())
 // Table: products
 //   id: uuid (not null, default: gen_random_uuid())
 //   name: text (not null)
+//   slug: text (nullable)
 //   description: text (nullable)
-//   price: numeric (nullable)
+//   price: numeric (not null, default: 0)
+//   stock: integer (not null, default: 0)
+//   group_id: uuid (nullable)
 //   image_url: text (nullable)
-//   category: text (nullable)
-//   stock: integer (nullable)
+//   active: boolean (nullable, default: true)
 //   created_at: timestamp with time zone (not null, default: now())
-//   rating: numeric (nullable, default: 5.0)
+//   updated_at: timestamp with time zone (not null, default: now())
 // Table: profiles
-//   id: uuid (not null, default: gen_random_uuid())
-//   email: text (nullable)
+//   id: uuid (not null)
+//   email: text (not null)
 //   name: text (nullable)
-//   role: text (nullable, default: 'athlete'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   status: text (nullable, default: 'active'::text)
-//   financial_status: text (nullable, default: 'normal'::text)
-//   document: text (nullable)
+//   role: text (nullable, default: 'client'::text)
 //   phone: text (nullable)
-//   address: text (nullable)
-//   city: text (nullable)
-//   state: text (nullable)
-//   birth_date: date (nullable)
-//   gender: text (nullable)
-//   rg: text (nullable)
-//   nationality: text (nullable)
-//   naturalness: text (nullable)
-//   photo_url: text (nullable)
-//   logo_url: text (nullable)
-//   handicap: numeric (nullable)
-//   category_id: uuid (nullable)
-//   club_id: uuid (nullable)
-//   points: integer (nullable, default: 0)
-//   is_club_admin: boolean (nullable, default: false)
-//   verified: boolean (nullable, default: false)
-//   affiliation_status: text (nullable, default: 'active'::text)
-//   contact: text (nullable)
-//   user_id: uuid (nullable)
-//   is_athlete: boolean (nullable, default: false)
-//   is_club: boolean (nullable, default: false)
-//   is_supplier: boolean (nullable, default: false)
-//   is_client: boolean (nullable, default: false)
-//   autoriza_whatsapp: boolean (nullable, default: false)
-//   telefone_whatsapp: text (nullable)
-//   tipo_usuario: text (nullable)
-//   cpf_cnpj: text (nullable)
-//   numero_registro_federativo: text (nullable)
-//   categoria: text (nullable)
-//   subcategoria: text (nullable)
-//   data_filiacao_clube: timestamp with time zone (nullable)
-//   status_delinquencia: boolean (nullable, default: false)
-//   data_ultima_movimentacao: timestamp with time zone (nullable)
-//   documento_identidade: text (nullable)
-//   observacoes: text (nullable)
-//   deleted_at: timestamp with time zone (nullable)
-// Table: publish_logs
-//   id: uuid (not null, default: gen_random_uuid())
-//   status: text (not null)
-//   message: text (not null)
-//   error_details: text (nullable)
+//   document: text (nullable)
+//   avatar_url: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
-//   created_by: uuid (nullable)
-// Table: rankings
+//   updated_at: timestamp with time zone (not null, default: now())
+// Table: quotes
 //   id: uuid (not null, default: gen_random_uuid())
-//   athlete_id: uuid (nullable)
-//   club_ranking: integer (nullable)
-//   state_ranking: integer (nullable)
-//   national_ranking: integer (nullable)
-//   world_ranking: integer (nullable)
-//   points: integer (nullable, default: 0)
-//   updated_at: timestamp with time zone (nullable, default: now())
-//   fifg_points: integer (nullable, default: 0)
-//   fbfg_points: integer (nullable, default: 0)
-//   fpfg_points: integer (nullable, default: 0)
-//   club_points: integer (nullable, default: 0)
-// Table: registration_payments
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (not null, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   payment_intent_id: text (nullable)
-//   entity_type: text (not null)
-//   entity_id: uuid (not null)
-//   valor: numeric (not null)
-//   status: text (not null, default: 'pending'::text)
-//   metodo_pagamento: text (not null)
-//   data_criacao: timestamp with time zone (nullable, default: now())
-//   data_pagamento: timestamp with time zone (nullable)
-// Table: rule_versions
-//   id: uuid (not null, default: gen_random_uuid())
-//   rule_id: uuid (nullable)
-//   version: text (not null)
-//   content: text (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   created_by: uuid (nullable)
+//   user_id: uuid (nullable)
+//   service_id: uuid (nullable)
+//   status: text (nullable, default: 'pending'::text)
+//   details: text (nullable)
+//   estimated_price: numeric (nullable)
+//   created_at: timestamp with time zone (not null, default: now())
+//   updated_at: timestamp with time zone (not null, default: now())
 // Table: rules
 //   id: uuid (not null, default: gen_random_uuid())
 //   title: text (not null)
-//   description: text (nullable)
-//   category: text (nullable)
-//   version: text (nullable, default: '1.0'::text)
-//   status: text (nullable, default: 'active'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-// Table: sections
-//   id: uuid (not null, default: gen_random_uuid())
-//   type: text (not null)
-//   data: jsonb (nullable, default: '{}'::jsonb)
-//   display_order: integer (not null, default: 0)
-//   is_published: boolean (nullable, default: false)
+//   content: text (nullable)
+//   order_index: integer (nullable, default: 0)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
 // Table: services
 //   id: uuid (not null, default: gen_random_uuid())
 //   name: text (not null)
 //   description: text (nullable)
-//   execution_time_minutes: integer (not null, default: 60)
+//   duration_minutes: integer (nullable, default: 60)
 //   price: numeric (nullable, default: 0)
-//   status: text (nullable, default: 'active'::text)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: stripe_config
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (not null, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   public_key: text (nullable)
-//   secret_key: text (nullable)
-//   webhook_secret: text (nullable)
-//   pix_enabled: boolean (nullable, default: false)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   updated_at: timestamp with time zone (nullable, default: now())
-//   pass_fees_to_customer: boolean (nullable, default: false)
-//   card_fee_percentage: numeric (nullable, default: 0)
-//   card_fee_fixed: numeric (nullable, default: 0)
-// Table: stripe_payments
-//   id: uuid (not null, default: gen_random_uuid())
-//   tenant_id: uuid (not null, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   payment_intent_id: text (nullable)
-//   atleta_id: uuid (nullable)
-//   charge_id: uuid (nullable)
-//   valor: numeric (not null)
-//   status: text (not null, default: 'pending'::text)
-//   metodo_pagamento: text (not null)
-//   data_criacao: timestamp with time zone (nullable, default: now())
-//   data_pagamento: timestamp with time zone (nullable)
-// Table: system_data
-//   id: uuid (not null, default: '00000000-0000-0000-0000-000000000001'::uuid)
-//   logo_url: text (nullable)
-//   slogan: text (nullable)
-//   cnpj: text (nullable)
-//   razao_social: text (nullable)
-//   address_street: text (nullable)
-//   address_number: text (nullable)
-//   address_complement: text (nullable)
-//   address_city: text (nullable)
-//   address_state: text (nullable)
-//   address_zip: text (nullable)
-//   phone: text (nullable)
-//   email: text (nullable)
-//   mobile: text (nullable)
-//   responsible_name: text (nullable)
-//   responsible_cpf: text (nullable)
-//   responsible_role: text (nullable)
-//   responsible_email: text (nullable)
-//   responsible_phone: text (nullable)
-//   updated_at: timestamp with time zone (nullable, default: now())
-//   bg_opacity: integer (nullable, default: 100)
-//   menu_logo_size: integer (nullable, default: 100)
-//   browser_icon_url: text (nullable)
-//   show_cnpj: boolean (nullable, default: true)
-//   show_contact_bar: boolean (nullable, default: true)
-//   session_lifetime: integer (nullable, default: 24)
-//   ai_context: text (nullable)
-//   dark_mode: boolean (nullable, default: false)
-//   language: text (nullable, default: 'pt'::text)
-//   libras_enabled: boolean (nullable, default: false)
-//   two_factor_auth: boolean (nullable, default: false)
-//   two_factor_method: text (nullable, default: 'email'::text)
-//   integrations: jsonb (nullable, default: '{}'::jsonb)
-//   terms: jsonb (nullable, default: '{"uso": "", "lgpd": "", "cookies": ""}'::jsonb)
-//   bg_image_url: text (nullable)
-//   platform_name: text (nullable)
-//   records_per_page: integer (nullable, default: 50)
-//   quote_footer_text: text (nullable)
-//   business_hours: jsonb (nullable, default: '{"friday": {"is_open": true, "lunch_end": "13:00", "open_time": "08:00", "close_time": "18:00", "lunch_start": "12:00"}, "monday": {"is_open": true, "lunch_end": "13:00", "open_time": "08:00", "close_time": "18:00", "lunch_start": "12:00"}, "sunday": {"is_open": false, "lunch_end": "", "open_time": "", "close_time": "", "lunch_start": ""}, "tuesday": {"is_open": true, "lunch_end": "13:00", "open_time": "08:00", "close_time": "18:00", "lunch_start": "12:00"}, "saturday": {"is_open": true, "lunch_end": "", "open_time": "08:00", "close_time": "12:00", "lunch_start": ""}, "thursday": {"is_open": true, "lunch_end": "13:00", "open_time": "08:00", "close_time": "18:00", "lunch_start": "12:00"}, "wednesday": {"is_open": true, "lunch_end": "13:00", "open_time": "08:00", "close_time": "18:00", "lunch_start": "12:00"}}'::jsonb)
-// Table: user_roles
-//   id: uuid (not null, default: gen_random_uuid())
-//   user_id: uuid (not null)
-//   role: text (not null)
+//   active: boolean (nullable, default: true)
 //   created_at: timestamp with time zone (not null, default: now())
-// Table: whatsapp_config
+//   updated_at: timestamp with time zone (not null, default: now())
+// Table: tournaments
 //   id: uuid (not null, default: gen_random_uuid())
-//   empresa_id: uuid (nullable)
-//   api_provider: text (nullable)
-//   account_sid: text (nullable)
-//   auth_token: text (nullable)
-//   phone_number: text (nullable)
-//   is_active: boolean (nullable, default: false)
-//   created_at: timestamp with time zone (nullable, default: now())
-//   is_production: boolean (nullable, default: false)
-// Table: whatsapp_logs
-//   id: uuid (not null, default: gen_random_uuid())
-//   empresa_id: uuid (nullable)
-//   cliente_id: uuid (nullable)
-//   telefone: text (nullable)
-//   tipo_mensagem: text (nullable)
-//   status: text (nullable)
-//   resposta_api: jsonb (nullable)
-//   created_at: timestamp with time zone (nullable, default: now())
-// Table: whatsapp_templates
-//   id: uuid (not null, default: gen_random_uuid())
-//   empresa_id: uuid (nullable)
-//   tipo_mensagem: text (nullable)
-//   titulo: text (nullable)
-//   conteudo: text (nullable)
-//   variaveis: jsonb (nullable, default: '{}'::jsonb)
-//   is_active: boolean (nullable, default: true)
-//   created_at: timestamp with time zone (nullable, default: now())
+//   title: text (not null)
+//   slug: text (nullable)
+//   description: text (nullable)
+//   course_id: uuid (nullable)
+//   start_date: timestamp with time zone (nullable)
+//   end_date: timestamp with time zone (nullable)
+//   status: text (nullable, default: 'draft'::text)
+//   registration_fee: numeric (nullable, default: 0)
+//   created_at: timestamp with time zone (not null, default: now())
+//   updated_at: timestamp with time zone (not null, default: now())
 
 // --- CONSTRAINTS ---
-// Table: affiliation_plans
-//   PRIMARY KEY affiliation_plans_pkey: PRIMARY KEY (id)
 // Table: appointments
 //   PRIMARY KEY appointments_pkey: PRIMARY KEY (id)
-// Table: athlete_attribute_values
-//   FOREIGN KEY athlete_attribute_values_attribute_id_fkey: FOREIGN KEY (attribute_id) REFERENCES athlete_attributes(id) ON DELETE CASCADE
-//   FOREIGN KEY athlete_attribute_values_avaliador_id_fkey: FOREIGN KEY (avaliador_id) REFERENCES profiles(id) ON DELETE SET NULL
-//   PRIMARY KEY athlete_attribute_values_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY athlete_attribute_values_user_id_fkey: FOREIGN KEY (user_id) REFERENCES profiles(id) ON DELETE CASCADE
-// Table: athlete_attributes
-//   UNIQUE athlete_attributes_nome_key: UNIQUE (nome)
-//   PRIMARY KEY athlete_attributes_pkey: PRIMARY KEY (id)
+//   FOREIGN KEY appointments_service_id_fkey: FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
+//   FOREIGN KEY appointments_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 // Table: athlete_categories
-//   FOREIGN KEY athlete_categories_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE CASCADE
-//   FOREIGN KEY athlete_categories_category_id_fkey: FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 //   PRIMARY KEY athlete_categories_pkey: PRIMARY KEY (id)
-// Table: athlete_history
-//   FOREIGN KEY athlete_history_clube_id_anterior_fkey: FOREIGN KEY (clube_id_anterior) REFERENCES profiles(id) ON DELETE SET NULL
-//   FOREIGN KEY athlete_history_clube_id_novo_fkey: FOREIGN KEY (clube_id_novo) REFERENCES profiles(id) ON DELETE SET NULL
-//   PRIMARY KEY athlete_history_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY athlete_history_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-// Table: audit_logs
-//   PRIMARY KEY audit_logs_pkey: PRIMARY KEY (id)
-// Table: billing_configuration
-//   CHECK billing_configuration_due_day_check: CHECK (((due_day >= 1) AND (due_day <= 31)))
-//   CHECK billing_configuration_due_month_check: CHECK (((due_month >= 1) AND (due_month <= 12)))
-//   PRIMARY KEY billing_configuration_pkey: PRIMARY KEY (id)
-//   UNIQUE billing_configuration_tenant_id_key: UNIQUE (tenant_id)
-// Table: billing_logs
-//   PRIMARY KEY billing_logs_pkey: PRIMARY KEY (id)
-//   CHECK billing_logs_status_check: CHECK ((status = ANY (ARRAY['success'::text, 'error'::text])))
-// Table: billing_registration_config
-//   PRIMARY KEY billing_registration_config_pkey: PRIMARY KEY (id)
-//   UNIQUE billing_registration_config_tenant_id_key: UNIQUE (tenant_id)
-// Table: billing_reminders_log
-//   FOREIGN KEY billing_reminders_log_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE CASCADE
-//   FOREIGN KEY billing_reminders_log_charge_id_fkey: FOREIGN KEY (charge_id) REFERENCES financial_charges(id) ON DELETE CASCADE
-//   PRIMARY KEY billing_reminders_log_pkey: PRIMARY KEY (id)
-// Table: blog_comments
-//   PRIMARY KEY blog_comments_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY blog_comments_post_id_fkey: FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
+// Table: athletes
+//   FOREIGN KEY athletes_category_id_fkey: FOREIGN KEY (category_id) REFERENCES athlete_categories(id) ON DELETE SET NULL
+//   FOREIGN KEY athletes_club_id_fkey: FOREIGN KEY (club_id) REFERENCES clubs(id) ON DELETE SET NULL
+//   PRIMARY KEY athletes_pkey: PRIMARY KEY (id)
+//   FOREIGN KEY athletes_profile_id_fkey: FOREIGN KEY (profile_id) REFERENCES profiles(id) ON DELETE CASCADE
+//   UNIQUE athletes_profile_id_key: UNIQUE (profile_id)
 // Table: blog_posts
-//   FOREIGN KEY blog_posts_author_id_fkey: FOREIGN KEY (author_id) REFERENCES auth.users(id) ON DELETE SET NULL
+//   FOREIGN KEY blog_posts_author_id_fkey: FOREIGN KEY (author_id) REFERENCES profiles(id) ON DELETE SET NULL
 //   PRIMARY KEY blog_posts_pkey: PRIMARY KEY (id)
-// Table: cart_items
-//   PRIMARY KEY cart_items_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY cart_items_product_id_fkey: FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
-//   FOREIGN KEY cart_items_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-//   UNIQUE cart_items_user_id_product_id_key: UNIQUE (user_id, product_id)
-// Table: categories
-//   PRIMARY KEY categories_pkey: PRIMARY KEY (id)
+//   UNIQUE blog_posts_slug_key: UNIQUE (slug)
+// Table: clubs
+//   FOREIGN KEY clubs_owner_id_fkey: FOREIGN KEY (owner_id) REFERENCES profiles(id) ON DELETE SET NULL
+//   PRIMARY KEY clubs_pkey: PRIMARY KEY (id)
+//   UNIQUE clubs_slug_key: UNIQUE (slug)
 // Table: courses
-//   FOREIGN KEY courses_club_id_fkey: FOREIGN KEY (club_id) REFERENCES profiles(id) ON DELETE CASCADE
 //   PRIMARY KEY courses_pkey: PRIMARY KEY (id)
-// Table: email_logs
-//   PRIMARY KEY email_logs_pkey: PRIMARY KEY (id)
-// Table: event_photos
-//   FOREIGN KEY event_photos_event_id_fkey: FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
-//   PRIMARY KEY event_photos_pkey: PRIMARY KEY (id)
-// Table: event_registrations
-//   FOREIGN KEY event_registrations_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE CASCADE
-//   FOREIGN KEY event_registrations_event_id_fkey: FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE
-//   PRIMARY KEY event_registrations_pkey: PRIMARY KEY (id)
-// Table: events
-//   FOREIGN KEY events_club_id_fkey: FOREIGN KEY (club_id) REFERENCES profiles(id) ON DELETE SET NULL
-//   PRIMARY KEY events_pkey: PRIMARY KEY (id)
-// Table: financial_charges
-//   FOREIGN KEY financial_charges_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE SET NULL
-//   FOREIGN KEY financial_charges_club_id_fkey: FOREIGN KEY (club_id) REFERENCES profiles(id) ON DELETE SET NULL
-//   PRIMARY KEY financial_charges_pkey: PRIMARY KEY (id)
-// Table: financial_movements
-//   PRIMARY KEY financial_movements_pkey: PRIMARY KEY (id)
-//   CHECK financial_movements_status_check: CHECK ((status = ANY (ARRAY['pendente'::text, 'confirmado'::text, 'cancelado'::text])))
-//   CHECK financial_movements_tipo_movimento_check: CHECK ((tipo_movimento = ANY (ARRAY['pagamento'::text, 'multa'::text, 'devolucao'::text, 'transferencia'::text])))
-//   FOREIGN KEY financial_movements_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-// Table: financial_partners
-//   PRIMARY KEY financial_partners_pkey: PRIMARY KEY (id)
-// Table: google_ads_cache
-//   PRIMARY KEY google_ads_cache_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY google_ads_cache_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-// Table: hero_carousel
-//   PRIMARY KEY hero_carousel_pkey: PRIMARY KEY (id)
-// Table: maintenance_config
-//   PRIMARY KEY maintenance_config_pkey: PRIMARY KEY (id)
-// Table: media_items
-//   PRIMARY KEY media_items_pkey: PRIMARY KEY (id)
-// Table: notifications
-//   PRIMARY KEY notifications_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY notifications_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
+// Table: gallery
+//   PRIMARY KEY gallery_pkey: PRIMARY KEY (id)
 // Table: order_items
 //   FOREIGN KEY order_items_order_id_fkey: FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
 //   PRIMARY KEY order_items_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY order_items_product_id_fkey: FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
+//   FOREIGN KEY order_items_product_id_fkey: FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL
 // Table: orders
-//   FOREIGN KEY orders_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE CASCADE
 //   PRIMARY KEY orders_pkey: PRIMARY KEY (id)
 //   FOREIGN KEY orders_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 // Table: pages
 //   PRIMARY KEY pages_pkey: PRIMARY KEY (id)
 //   UNIQUE pages_slug_key: UNIQUE (slug)
+// Table: product_groups
+//   PRIMARY KEY product_groups_pkey: PRIMARY KEY (id)
+//   UNIQUE product_groups_slug_key: UNIQUE (slug)
 // Table: products
+//   FOREIGN KEY products_group_id_fkey: FOREIGN KEY (group_id) REFERENCES product_groups(id) ON DELETE SET NULL
 //   PRIMARY KEY products_pkey: PRIMARY KEY (id)
+//   UNIQUE products_slug_key: UNIQUE (slug)
 // Table: profiles
-//   FOREIGN KEY profiles_club_id_fkey: FOREIGN KEY (club_id) REFERENCES profiles(id) ON DELETE SET NULL
+//   FOREIGN KEY profiles_id_fkey: FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE
 //   PRIMARY KEY profiles_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY profiles_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-// Table: publish_logs
-//   FOREIGN KEY publish_logs_created_by_fkey: FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL
-//   PRIMARY KEY publish_logs_pkey: PRIMARY KEY (id)
-// Table: rankings
-//   FOREIGN KEY rankings_athlete_id_fkey: FOREIGN KEY (athlete_id) REFERENCES profiles(id) ON DELETE CASCADE
-//   UNIQUE rankings_athlete_id_key: UNIQUE (athlete_id)
-//   PRIMARY KEY rankings_pkey: PRIMARY KEY (id)
-// Table: registration_payments
-//   CHECK registration_payments_entity_type_check: CHECK ((entity_type = ANY (ARRAY['athlete'::text, 'club'::text])))
-//   PRIMARY KEY registration_payments_pkey: PRIMARY KEY (id)
-// Table: rule_versions
-//   FOREIGN KEY rule_versions_created_by_fkey: FOREIGN KEY (created_by) REFERENCES auth.users(id) ON DELETE SET NULL
-//   PRIMARY KEY rule_versions_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY rule_versions_rule_id_fkey: FOREIGN KEY (rule_id) REFERENCES rules(id) ON DELETE CASCADE
+// Table: quotes
+//   PRIMARY KEY quotes_pkey: PRIMARY KEY (id)
+//   FOREIGN KEY quotes_service_id_fkey: FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL
+//   FOREIGN KEY quotes_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
 // Table: rules
 //   PRIMARY KEY rules_pkey: PRIMARY KEY (id)
-// Table: sections
-//   PRIMARY KEY sections_pkey: PRIMARY KEY (id)
 // Table: services
 //   PRIMARY KEY services_pkey: PRIMARY KEY (id)
-// Table: stripe_config
-//   PRIMARY KEY stripe_config_pkey: PRIMARY KEY (id)
-// Table: stripe_payments
-//   FOREIGN KEY stripe_payments_atleta_id_fkey: FOREIGN KEY (atleta_id) REFERENCES profiles(id) ON DELETE SET NULL
-//   FOREIGN KEY stripe_payments_charge_id_fkey: FOREIGN KEY (charge_id) REFERENCES financial_charges(id) ON DELETE SET NULL
-//   PRIMARY KEY stripe_payments_pkey: PRIMARY KEY (id)
-// Table: system_data
-//   PRIMARY KEY system_data_pkey: PRIMARY KEY (id)
-// Table: user_roles
-//   PRIMARY KEY user_roles_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY user_roles_user_id_fkey: FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE
-//   UNIQUE user_roles_user_id_role_key: UNIQUE (user_id, role)
-// Table: whatsapp_config
-//   CHECK whatsapp_config_api_provider_check: CHECK ((api_provider = ANY (ARRAY['twilio'::text, 'evolution'::text])))
-//   FOREIGN KEY whatsapp_config_empresa_id_fkey: FOREIGN KEY (empresa_id) REFERENCES auth.users(id) ON DELETE CASCADE
-//   PRIMARY KEY whatsapp_config_pkey: PRIMARY KEY (id)
-// Table: whatsapp_logs
-//   FOREIGN KEY whatsapp_logs_cliente_id_fkey: FOREIGN KEY (cliente_id) REFERENCES profiles(id) ON DELETE CASCADE
-//   FOREIGN KEY whatsapp_logs_empresa_id_fkey: FOREIGN KEY (empresa_id) REFERENCES auth.users(id) ON DELETE CASCADE
-//   PRIMARY KEY whatsapp_logs_pkey: PRIMARY KEY (id)
-//   CHECK whatsapp_logs_status_check: CHECK ((status = ANY (ARRAY['enviado'::text, 'falha'::text, 'pendente'::text])))
-// Table: whatsapp_templates
-//   FOREIGN KEY whatsapp_templates_empresa_id_fkey: FOREIGN KEY (empresa_id) REFERENCES auth.users(id) ON DELETE CASCADE
-//   PRIMARY KEY whatsapp_templates_pkey: PRIMARY KEY (id)
+// Table: tournaments
+//   FOREIGN KEY tournaments_course_id_fkey: FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE SET NULL
+//   PRIMARY KEY tournaments_pkey: PRIMARY KEY (id)
+//   UNIQUE tournaments_slug_key: UNIQUE (slug)
 
 // --- ROW LEVEL SECURITY POLICIES ---
-// Table: affiliation_plans
-//   Policy "plans_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "plans_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
 // Table: appointments
-//   Policy "appointments_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: athlete_attribute_values
-//   Policy "values_delete" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage appointments" (ALL, PERMISSIVE) roles={public}
 //     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
-//   Policy "values_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: (EXISTS ( SELECT 1    FROM profiles p   WHERE ((p.id = auth.uid()) AND ((p.role = 'admin'::text) OR (p.role = 'club'::text) OR (p.is_club_admin = true)))))
-//   Policy "values_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: ((user_id = auth.uid()) OR (EXISTS ( SELECT 1    FROM profiles p   WHERE ((p.id = auth.uid()) AND ((p.role = 'admin'::text) OR ((p.role = 'club'::text) AND (p.id = ( SELECT profiles.club_id            FROM profiles           WHERE (profiles.id = athlete_attribute_values.user_id)))) OR (p.is_club_admin = true))))))
-//   Policy "values_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
-// Table: athlete_attributes
-//   Policy "attributes_all_admin" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
-//   Policy "attributes_select_all" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: true
+//   Policy "Users can manage their own appointments" (ALL, PERMISSIVE) roles={public}
+//     USING: (auth.uid() = user_id)
 // Table: athlete_categories
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage athlete_categories" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view athlete_categories" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: athlete_history
-//   Policy "athlete_history_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: audit_logs
-//   Policy "audit_logs_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-//   Policy "audit_logs_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-// Table: billing_configuration
-//   Policy "billing_config_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-// Table: billing_logs
-//   Policy "billing_logs_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-// Table: billing_registration_config
-//   Policy "billing_registration_config_all" (ALL, PERMISSIVE) roles={public}
-//     USING: true
-// Table: billing_reminders_log
-//   Policy "billing_reminders_log_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-// Table: blog_comments
-//   Policy "Enable all access for authenticated users" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-//   Policy "Enable insert for all users" (INSERT, PERMISSIVE) roles={public}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
+// Table: athletes
+//   Policy "Admin can manage athletes" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view athletes" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
 // Table: blog_posts
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage blog_posts" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view blog_posts" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
+// Table: clubs
+//   Policy "Admin can manage clubs" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view clubs" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: cart_items
-//   Policy "Users can manage their own cart items" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: (auth.uid() = user_id)
-//     WITH CHECK: (auth.uid() = user_id)
-// Table: categories
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
 // Table: courses
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage courses" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view courses" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
+// Table: gallery
+//   Policy "Admin can manage gallery" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view gallery" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: email_logs
-//   Policy "admin_all_email_logs" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: event_photos
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: event_registrations
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: events
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: financial_charges
-//   Policy "financial_charges_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: financial_movements
-//   Policy "financial_movements_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: financial_partners
-//   Policy "financial_partners_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: google_ads_cache
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for authenticated users" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: hero_carousel
-//   Policy "hero_carousel_delete" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "hero_carousel_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "hero_carousel_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "hero_carousel_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: maintenance_config
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: media_items
-//   Policy "media_items_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-//   Policy "media_items_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-// Table: notifications
-//   Policy "Users can delete own notifications" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: (auth.uid() = user_id)
-//   Policy "Users can update own notifications" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: (auth.uid() = user_id)
-//     WITH CHECK: (auth.uid() = user_id)
-//   Policy "Users can view own notifications" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (auth.uid() = user_id)
 // Table: order_items
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-//   Policy "order_items_insert_auth" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
+//   Policy "Admin can manage order items" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Users can view their order items" (SELECT, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM orders   WHERE ((orders.id = order_items.order_id) AND (orders.user_id = auth.uid()))))
 // Table: orders
-//   Policy "Users can insert own orders" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: (auth.uid() = user_id)
-//   Policy "Users can update own orders" (UPDATE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage orders" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Users can manage their own orders" (ALL, PERMISSIVE) roles={public}
 //     USING: (auth.uid() = user_id)
-//   Policy "orders_insert_auth" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "orders_select_auth" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "orders_update_auth" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
 // Table: pages
-//   Policy "Enable all access for authenticated users" (ALL, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage pages" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view pages" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: (is_published = true)
+// Table: product_groups
+//   Policy "Admin can manage product_groups" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view product_groups" (SELECT, PERMISSIVE) roles={public}
+//     USING: true
 // Table: products
-//   Policy "Enable delete for authenticated users" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage products" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view products" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "Enable insert for authenticated users" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "Enable update for authenticated users" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
 // Table: profiles
-//   Policy "profiles_all_auth" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: (deleted_at IS NULL)
-//     WITH CHECK: true
-//   Policy "profiles_delete" (DELETE, PERMISSIVE) roles={authenticated}
+//   Policy "Admins can delete profiles." (DELETE, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles profiles_1   WHERE ((profiles_1.id = auth.uid()) AND (profiles_1.role = 'admin'::text))))
+//   Policy "Admins can update all profiles." (UPDATE, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles profiles_1   WHERE ((profiles_1.id = auth.uid()) AND (profiles_1.role = 'admin'::text))))
+//   Policy "Public profiles are viewable by everyone." (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "profiles_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "profiles_insert_public" (INSERT, PERMISSIVE) roles={public}
-//     WITH CHECK: true
-//   Policy "profiles_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: (deleted_at IS NULL)
-//   Policy "profiles_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: publish_logs
-//   Policy "publish_logs_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: rankings
-//   Policy "rankings_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "rankings_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-// Table: registration_payments
-//   Policy "registration_payments_all" (ALL, PERMISSIVE) roles={public}
-//     USING: true
-// Table: rule_versions
-//   Policy "rule_versions_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "rule_versions_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
+//   Policy "Users can insert their own profile." (INSERT, PERMISSIVE) roles={public}
+//     WITH CHECK: (auth.uid() = id)
+//   Policy "Users can update own profile." (UPDATE, PERMISSIVE) roles={public}
+//     USING: (auth.uid() = id)
+// Table: quotes
+//   Policy "Admin can manage quotes" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Users can manage their own quotes" (ALL, PERMISSIVE) roles={public}
+//     USING: (auth.uid() = user_id)
 // Table: rules
-//   Policy "rules_all" (ALL, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage rules" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view rules" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//   Policy "rules_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-// Table: sections
-//   Policy "Enable all access for authenticated users" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-//   Policy "Enable read access for all users" (SELECT, PERMISSIVE) roles={public}
-//     USING: (is_published = true)
 // Table: services
-//   Policy "services_all" (ALL, PERMISSIVE) roles={authenticated}
+//   Policy "Admin can manage services" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view services" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-//     WITH CHECK: true
-//   Policy "services_select_public" (SELECT, PERMISSIVE) roles={public}
+// Table: tournaments
+//   Policy "Admin can manage tournaments" (ALL, PERMISSIVE) roles={public}
+//     USING: (EXISTS ( SELECT 1    FROM profiles   WHERE ((profiles.id = auth.uid()) AND (profiles.role = 'admin'::text))))
+//   Policy "Public can view tournaments" (SELECT, PERMISSIVE) roles={public}
 //     USING: true
-// Table: stripe_config
-//   Policy "stripe_config_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-// Table: stripe_payments
-//   Policy "stripe_payments_all" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-// Table: system_data
-//   Policy "system_data_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "system_data_select" (SELECT, PERMISSIVE) roles={public}
-//     USING: true
-//   Policy "system_data_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: user_roles
-//   Policy "user_roles_delete" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "user_roles_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: true
-//   Policy "user_roles_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: true
-//   Policy "user_roles_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: whatsapp_config
-//   Policy "admin_all_whatsapp_config" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: whatsapp_logs
-//   Policy "admin_all_whatsapp_logs" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
-// Table: whatsapp_templates
-//   Policy "admin_all_whatsapp_templates" (ALL, PERMISSIVE) roles={authenticated}
-//     USING: true
-//     WITH CHECK: true
 
 // --- DATABASE FUNCTIONS ---
-// FUNCTION audit_trigger_func()
-//   CREATE OR REPLACE FUNCTION public.audit_trigger_func()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//     IF TG_OP = 'INSERT' THEN
-//       INSERT INTO public.audit_logs (table_name, record_id, action, new_data, changed_by)
-//       VALUES (TG_TABLE_NAME, NEW.id, TG_OP, to_jsonb(NEW), auth.uid());
-//       RETURN NEW;
-//     ELSIF TG_OP = 'UPDATE' THEN
-//       INSERT INTO public.audit_logs (table_name, record_id, action, old_data, new_data, changed_by)
-//       VALUES (TG_TABLE_NAME, NEW.id, TG_OP, to_jsonb(OLD), to_jsonb(NEW), auth.uid());
-//       RETURN NEW;
-//     ELSIF TG_OP = 'DELETE' THEN
-//       INSERT INTO public.audit_logs (table_name, record_id, action, old_data, changed_by)
-//       VALUES (TG_TABLE_NAME, OLD.id, TG_OP, to_jsonb(OLD), auth.uid());
-//       RETURN OLD;
-//     END IF;
-//     RETURN NULL;
-//   END;
-//   $function$
-//
-// FUNCTION calcular_categoria_atleta()
-//   CREATE OR REPLACE FUNCTION public.calcular_categoria_atleta()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//   AS $function$
-//   DECLARE
-//       idade int;
-//       cat_record record;
-//       user_gender text;
-//   BEGIN
-//       IF NEW.birth_date IS NOT NULL THEN
-//           idade := date_part('year', age(NEW.birth_date));
-//           user_gender := LOWER(COALESCE(NEW.gender, ''));
-//
-//           -- Mapear genero para o formato da tabela de categorias (m, f)
-//           IF user_gender IN ('masculino', 'm') THEN
-//               user_gender := 'm';
-//           ELSIF user_gender IN ('feminino', 'f') THEN
-//               user_gender := 'f';
-//           END IF;
-//
-//           -- Tentar buscar categoria dinamicamente na tabela categories
-//           SELECT * INTO cat_record
-//           FROM public.categories
-//           WHERE status = 'active'
-//             AND (min_age IS NULL OR idade >= min_age)
-//             AND (max_age IS NULL OR idade <= max_age)
-//             AND (
-//               gender IS NULL
-//               OR gender = ''
-//               OR LOWER(gender) = 'ambos'
-//               OR LOWER(gender) = user_gender
-//             )
-//           ORDER BY
-//             -- Priorizar categorias mais especificas (com limites definidos)
-//             CASE WHEN min_age IS NOT NULL AND max_age IS NOT NULL THEN 0 ELSE 1 END,
-//             -- Priorizar categorias com menor diferenca entre limites
-//             COALESCE(max_age, 999) - COALESCE(min_age, 0) ASC
-//           LIMIT 1;
-//
-//           IF FOUND THEN
-//               NEW.categoria := cat_record.name;
-//               NEW.category_id := cat_record.id;
-//               NEW.subcategoria := cat_record.name;
-//           ELSE
-//               -- Fallback para o comportamento original se nenhuma categoria for encontrada
-//               IF NEW.gender = 'masculino' THEN
-//                   IF idade < 18 THEN
-//                       NEW.categoria := 'Junior';
-//                   ELSIF idade <= 45 THEN
-//                       NEW.categoria := 'Adulto';
-//                   ELSIF idade <= 55 THEN
-//                       NEW.categoria := 'Sênior';
-//                   ELSE
-//                       NEW.categoria := 'Master';
-//                   END IF;
-//               ELSIF NEW.gender = 'feminino' THEN
-//                   IF idade < 18 THEN
-//                       NEW.categoria := 'Junior Feminino';
-//                   ELSE
-//                       NEW.categoria := 'Feminino';
-//                   END IF;
-//               ELSE
-//                   NEW.categoria := 'Geral';
-//               END IF;
-//               NEW.subcategoria := NEW.categoria;
-//           END IF;
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION delete_user_admin(uuid)
-//   CREATE OR REPLACE FUNCTION public.delete_user_admin(target_user_id uuid)
-//    RETURNS void
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//     -- Verifica se quem chamou é administrador
-//     PERFORM 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin';
-//     IF NOT FOUND THEN
-//       RAISE EXCEPTION 'Acesso negado: apenas administradores podem excluir usuários.';
-//     END IF;
-//
-//     -- Impede que o administrador exclua a si mesmo
-//     IF target_user_id = auth.uid() THEN
-//       RAISE EXCEPTION 'Acesso negado: você não pode excluir sua própria conta.';
-//     END IF;
-//
-//     -- Remove o usuário da tabela auth.users (O DELETE CASCADE remove tabelas dependentes ligadas)
-//     DELETE FROM auth.users WHERE id = target_user_id;
-//
-//     -- Remove o profile caso seja um registro órfão sem correspondência em auth.users
-//     DELETE FROM public.profiles WHERE id = target_user_id;
-//   END;
-//   $function$
-//
-// FUNCTION generate_federative_registration()
-//   CREATE OR REPLACE FUNCTION public.generate_federative_registration()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//   AS $function$
-//   DECLARE
-//       seq_val INT;
-//       year_str VARCHAR;
-//       month_str VARCHAR;
-//       seq_str VARCHAR;
-//   BEGIN
-//       IF NEW.numero_registro_federativo IS NULL OR NEW.numero_registro_federativo = '' THEN
-//           seq_val := nextval('public.federative_registration_seq');
-//           year_str := to_char(COALESCE(NEW.created_at, CURRENT_TIMESTAMP), 'YYYY');
-//           month_str := to_char(COALESCE(NEW.created_at, CURRENT_TIMESTAMP), 'MM');
-//           seq_str := lpad(seq_val::text, 4, '0');
-//
-//           NEW.numero_registro_federativo := year_str || month_str || seq_str;
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
 // FUNCTION handle_new_user()
 //   CREATE OR REPLACE FUNCTION public.handle_new_user()
 //    RETURNS trigger
 //    LANGUAGE plpgsql
 //    SECURITY DEFINER
 //   AS $function$
-//   DECLARE
-//     default_role text;
 //   BEGIN
-//     default_role := COALESCE(NEW.raw_user_meta_data->>'role', 'athlete');
-//
-//     INSERT INTO public.profiles (
-//       id,
-//       user_id,
-//       email,
-//       name,
-//       document,
-//       phone,
-//       is_client,
-//       role
-//     )
+//     INSERT INTO public.profiles (id, email, name, role)
 //     VALUES (
 //       NEW.id,
-//       NEW.id,
 //       NEW.email,
-//       COALESCE(NEW.raw_user_meta_data->>'name', ''),
-//       NEW.raw_user_meta_data->>'document',
-//       NEW.raw_user_meta_data->>'phone',
-//       COALESCE((NEW.raw_user_meta_data->>'is_client')::boolean, false),
-//       default_role
+//       COALESCE(NEW.raw_user_meta_data->>'name', NEW.raw_user_meta_data->>'full_name', split_part(NEW.email, '@', 1)),
+//       COALESCE(NEW.raw_user_meta_data->>'role', 'client')
 //     )
 //     ON CONFLICT (id) DO UPDATE SET
-//       name = EXCLUDED.name,
-//       document = COALESCE(EXCLUDED.document, public.profiles.document),
-//       phone = COALESCE(EXCLUDED.phone, public.profiles.phone),
-//       is_client = EXCLUDED.is_client;
-//
-//     -- Insert into user_roles
-//     INSERT INTO public.user_roles (user_id, role)
-//     VALUES (NEW.id, default_role)
-//     ON CONFLICT (user_id, role) DO NOTHING;
-//
+//       email = EXCLUDED.email;
 //     RETURN NEW;
 //   END;
 //   $function$
-//
-// FUNCTION notify_club_suspension()
-//   CREATE OR REPLACE FUNCTION public.notify_club_suspension()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//       IF NEW.is_club = true AND NEW.affiliation_status = 'suspended' AND (OLD.affiliation_status IS NULL OR OLD.affiliation_status <> 'suspended') THEN
-//           INSERT INTO public.notifications (user_id, title, message, type)
-//           SELECT user_id, 'Clube Suspenso', 'A filiação do clube ' || NEW.name || ' foi suspensa.', 'club'
-//           FROM public.profiles
-//           WHERE club_id = NEW.id AND is_club_admin = true AND user_id IS NOT NULL;
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION notify_event_registration()
-//   CREATE OR REPLACE FUNCTION public.notify_event_registration()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   DECLARE
-//       v_user_id uuid;
-//       v_event_name text;
-//   BEGIN
-//       SELECT user_id INTO v_user_id FROM public.profiles WHERE id = NEW.athlete_id;
-//       IF v_user_id IS NOT NULL THEN
-//           SELECT name INTO v_event_name FROM public.events WHERE id = NEW.event_id;
-//           INSERT INTO public.notifications (user_id, title, message, type)
-//           VALUES (v_user_id, 'Inscrição Confirmada', 'Sua inscrição no evento ' || COALESCE(v_event_name, '') || ' foi realizada com sucesso.', 'event');
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION notify_new_blog_post()
-//   CREATE OR REPLACE FUNCTION public.notify_new_blog_post()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//       INSERT INTO public.notifications (user_id, title, message, type)
-//       SELECT id, 'Novo Post no Blog', 'Confira nosso novo artigo: ' || NEW.title, 'blog'
-//       FROM auth.users;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION notify_order_payment()
-//   CREATE OR REPLACE FUNCTION public.notify_order_payment()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//       IF NEW.status = 'paid' AND (OLD.status IS NULL OR OLD.status <> 'paid') THEN
-//           IF NEW.user_id IS NOT NULL THEN
-//               INSERT INTO public.notifications (user_id, title, message, type)
-//               VALUES (NEW.user_id, 'Pagamento Confirmado', 'O pagamento do seu pedido foi recebido.', 'payment');
-//           END IF;
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
+//   
 // FUNCTION rls_auto_enable()
 //   CREATE OR REPLACE FUNCTION public.rls_auto_enable()
 //    RETURNS event_trigger
@@ -3553,111 +1147,21 @@ export const Constants = {
 //     END LOOP;
 //   END;
 //   $function$
-//
-// FUNCTION update_event_participants()
-//   CREATE OR REPLACE FUNCTION public.update_event_participants()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//    SECURITY DEFINER
-//   AS $function$
-//   BEGIN
-//       IF TG_OP = 'INSERT' THEN
-//           UPDATE public.events
-//           SET current_participants = COALESCE(current_participants, 0) + 1
-//           WHERE id = NEW.event_id;
-//       ELSIF TG_OP = 'DELETE' THEN
-//           UPDATE public.events
-//           SET current_participants = GREATEST(COALESCE(current_participants, 0) - 1, 0)
-//           WHERE id = OLD.event_id;
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION update_sections_modtime()
-//   CREATE OR REPLACE FUNCTION public.update_sections_modtime()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//   AS $function$
-//   BEGIN
-//       NEW.updated_at = NOW();
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-// FUNCTION validar_usuario_ativo_financeiro()
-//   CREATE OR REPLACE FUNCTION public.validar_usuario_ativo_financeiro()
-//    RETURNS trigger
-//    LANGUAGE plpgsql
-//   AS $function$
-//   BEGIN
-//       IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = NEW.user_id AND deleted_at IS NULL) THEN
-//           RAISE EXCEPTION 'Usuário inativo ou não encontrado.';
-//       END IF;
-//       RETURN NEW;
-//   END;
-//   $function$
-//
-
-// --- TRIGGERS ---
-// Table: affiliation_plans
-//   audit_affiliation_plans: CREATE TRIGGER audit_affiliation_plans AFTER INSERT OR DELETE OR UPDATE ON public.affiliation_plans FOR EACH ROW EXECUTE FUNCTION audit_trigger_func()
-// Table: blog_posts
-//   trigger_notify_new_blog_post: CREATE TRIGGER trigger_notify_new_blog_post AFTER INSERT ON public.blog_posts FOR EACH ROW EXECUTE FUNCTION notify_new_blog_post()
-// Table: courses
-//   audit_courses: CREATE TRIGGER audit_courses AFTER INSERT OR DELETE OR UPDATE ON public.courses FOR EACH ROW EXECUTE FUNCTION audit_trigger_func()
-// Table: event_registrations
-//   on_event_registration_update_count: CREATE TRIGGER on_event_registration_update_count AFTER INSERT OR DELETE ON public.event_registrations FOR EACH ROW EXECUTE FUNCTION update_event_participants()
-//   trigger_notify_event_registration: CREATE TRIGGER trigger_notify_event_registration AFTER INSERT ON public.event_registrations FOR EACH ROW EXECUTE FUNCTION notify_event_registration()
-// Table: financial_movements
-//   trigger_valida_usuario_financeiro: CREATE TRIGGER trigger_valida_usuario_financeiro BEFORE INSERT ON public.financial_movements FOR EACH ROW EXECUTE FUNCTION validar_usuario_ativo_financeiro()
-// Table: orders
-//   trigger_notify_order_payment: CREATE TRIGGER trigger_notify_order_payment AFTER UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION notify_order_payment()
-// Table: profiles
-//   set_federative_registration: CREATE TRIGGER set_federative_registration BEFORE INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION generate_federative_registration()
-//   trigger_calcula_categoria: CREATE TRIGGER trigger_calcula_categoria BEFORE INSERT OR UPDATE OF birth_date, gender ON public.profiles FOR EACH ROW EXECUTE FUNCTION calcular_categoria_atleta()
-//   trigger_notify_club_suspension: CREATE TRIGGER trigger_notify_club_suspension AFTER UPDATE ON public.profiles FOR EACH ROW EXECUTE FUNCTION notify_club_suspension()
-// Table: sections
-//   sections_updated_at_trigger: CREATE TRIGGER sections_updated_at_trigger BEFORE UPDATE ON public.sections FOR EACH ROW EXECUTE FUNCTION update_sections_modtime()
-// Table: system_data
-//   audit_system_data: CREATE TRIGGER audit_system_data AFTER INSERT OR DELETE OR UPDATE ON public.system_data FOR EACH ROW EXECUTE FUNCTION audit_trigger_func()
+//   
 
 // --- INDEXES ---
-// Table: athlete_attribute_values
-//   CREATE INDEX idx_athlete_attribute_values_attr_data ON public.athlete_attribute_values USING btree (attribute_id, data_registro)
-//   CREATE INDEX idx_athlete_attribute_values_user_attr ON public.athlete_attribute_values USING btree (user_id, attribute_id)
-// Table: athlete_attributes
-//   CREATE UNIQUE INDEX athlete_attributes_nome_key ON public.athlete_attributes USING btree (nome)
-// Table: billing_configuration
-//   CREATE UNIQUE INDEX billing_configuration_tenant_id_key ON public.billing_configuration USING btree (tenant_id)
-//   CREATE INDEX idx_billing_config_auto ON public.billing_configuration USING btree (auto_generate_enabled)
-//   CREATE INDEX idx_billing_config_tenant ON public.billing_configuration USING btree (tenant_id)
-// Table: billing_logs
-//   CREATE INDEX idx_billing_logs_date ON public.billing_logs USING btree (execution_date)
-//   CREATE INDEX idx_billing_logs_tenant ON public.billing_logs USING btree (tenant_id)
-// Table: billing_registration_config
-//   CREATE INDEX billing_registration_config_tenant_id_idx ON public.billing_registration_config USING btree (tenant_id)
-//   CREATE UNIQUE INDEX billing_registration_config_tenant_id_key ON public.billing_registration_config USING btree (tenant_id)
-// Table: cart_items
-//   CREATE UNIQUE INDEX cart_items_user_id_product_id_key ON public.cart_items USING btree (user_id, product_id)
+// Table: athletes
+//   CREATE UNIQUE INDEX athletes_profile_id_key ON public.athletes USING btree (profile_id)
+// Table: blog_posts
+//   CREATE UNIQUE INDEX blog_posts_slug_key ON public.blog_posts USING btree (slug)
+// Table: clubs
+//   CREATE UNIQUE INDEX clubs_slug_key ON public.clubs USING btree (slug)
 // Table: pages
 //   CREATE UNIQUE INDEX pages_slug_key ON public.pages USING btree (slug)
-// Table: profiles
-//   CREATE UNIQUE INDEX unique_active_cpf_cnpj ON public.profiles USING btree (cpf_cnpj) WHERE (deleted_at IS NULL)
-// Table: rankings
-//   CREATE UNIQUE INDEX rankings_athlete_id_key ON public.rankings USING btree (athlete_id)
-// Table: registration_payments
-//   CREATE INDEX registration_payments_entity_id_idx ON public.registration_payments USING btree (entity_id)
-//   CREATE INDEX registration_payments_payment_intent_id_idx ON public.registration_payments USING btree (payment_intent_id)
-//   CREATE INDEX registration_payments_tenant_id_idx ON public.registration_payments USING btree (tenant_id)
-// Table: stripe_config
-//   CREATE UNIQUE INDEX stripe_config_tenant_id_idx ON public.stripe_config USING btree (tenant_id)
-// Table: stripe_payments
-//   CREATE INDEX stripe_payments_atleta_id_idx ON public.stripe_payments USING btree (atleta_id)
-//   CREATE INDEX stripe_payments_payment_intent_id_idx ON public.stripe_payments USING btree (payment_intent_id)
-//   CREATE INDEX stripe_payments_tenant_id_idx ON public.stripe_payments USING btree (tenant_id)
-// Table: user_roles
-//   CREATE UNIQUE INDEX user_roles_user_id_role_key ON public.user_roles USING btree (user_id, role)
-// Table: whatsapp_logs
-//   CREATE INDEX idx_whatsapp_logs_cliente_id ON public.whatsapp_logs USING btree (cliente_id)
-//   CREATE INDEX idx_whatsapp_logs_empresa_id ON public.whatsapp_logs USING btree (empresa_id)
+// Table: product_groups
+//   CREATE UNIQUE INDEX product_groups_slug_key ON public.product_groups USING btree (slug)
+// Table: products
+//   CREATE UNIQUE INDEX products_slug_key ON public.products USING btree (slug)
+// Table: tournaments
+//   CREATE UNIQUE INDEX tournaments_slug_key ON public.tournaments USING btree (slug)
+
