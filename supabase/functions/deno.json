@@ -1,0 +1,19 @@
+{
+  "_versions": {
+    "send-email": 9,
+    "sync-google-ads": 1,
+    "generate-affiliation-billing": 4,
+    "cron-billing-trigger": 1,
+    "stripe-webhook": 1,
+    "process-stripe-payment": 5,
+    "cron-billing-reminders": 3,
+    "process-registration-payment": 5,
+    "registration-payment-webhook": 3,
+    "request-password-reset": 2,
+    "validar_whatsapp_config": 1,
+    "enviar_whatsapp": 3,
+    "delete-user-soft": 1,
+    "calculate-athlete-statistics": 1,
+    "get-athlete-comparison": 1
+  }
+}
