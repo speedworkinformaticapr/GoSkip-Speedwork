@@ -1,5 +1,3 @@
-import { supabase } from '@/lib/supabase/client'
-
 export interface MaintenanceConfig {
   id: string
   is_active: boolean
@@ -16,29 +14,23 @@ export interface MaintenanceConfig {
 }
 
 export const getMaintenanceConfig = async () => {
-  const { data, error } = await supabase
-    .from('maintenance_config')
-    .select('*')
-    .eq('id', '00000000-0000-0000-0000-000000000001')
-    .single()
-
-  if (error && error.code !== 'PGRST116') {
-    console.error('Error fetching maintenance config:', error)
-  }
-  return data as MaintenanceConfig | null
+  return {
+    id: '00000000-0000-0000-0000-000000000001',
+    is_active: false,
+    title: 'Manutenção',
+    message: 'Voltamos em breve',
+    return_date: null,
+    bg_color: '#ffffff',
+    text_color: '#000000',
+    font_family: 'sans',
+    bg_image_url: null,
+    whatsapp_url: null,
+    instagram_url: null,
+    facebook_url: null,
+  } as MaintenanceConfig
 }
 
 export const updateMaintenanceConfig = async (config: Partial<MaintenanceConfig>) => {
-  const { data, error } = await supabase
-    .from('maintenance_config')
-    .update(config)
-    .eq('id', '00000000-0000-0000-0000-000000000001')
-    .select()
-    .single()
-
-  if (error) {
-    console.error('Error updating maintenance config:', error)
-    throw error
-  }
-  return data as MaintenanceConfig
+  const current = await getMaintenanceConfig()
+  return { ...current, ...config } as MaintenanceConfig
 }

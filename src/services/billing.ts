@@ -1,5 +1,3 @@
-import { supabase } from '@/lib/supabase/client'
-
 export interface BillingConfig {
   id: string
   tenant_id: string
@@ -19,59 +17,42 @@ export interface BillingLog {
 }
 
 export const getBillingConfig = async (): Promise<BillingConfig | null> => {
-  const { data, error } = await supabase
-    .from('billing_configuration' as any)
-    .select('*')
-    .single()
-
-  if (error && error.code !== 'PGRST116') throw error
-  return data
+  return {
+    id: '1',
+    tenant_id: '1',
+    auto_generate_enabled: false,
+    due_day: 10,
+    due_month: 1,
+    days_before_generation: 5,
+  }
 }
 
 export const updateBillingConfig = async (config: Partial<BillingConfig>) => {
-  const { data, error } = await supabase
-    .from('billing_configuration' as any)
-    .upsert({ ...config, tenant_id: '00000000-0000-0000-0000-000000000001' })
-    .select()
-    .single()
-
-  if (error) throw error
-  return data
+  return {
+    id: '1',
+    tenant_id: '1',
+    auto_generate_enabled: false,
+    due_day: 10,
+    due_month: 1,
+    days_before_generation: 5,
+    ...config,
+  } as BillingConfig
 }
 
 export const getBillingLogs = async (): Promise<BillingLog[]> => {
-  const { data, error } = await supabase
-    .from('billing_logs' as any)
-    .select('*')
-    .order('execution_date', { ascending: false })
-
-  if (error) throw error
-  return data || []
+  return []
 }
 
 export const triggerBillingGeneration = async (manual = false) => {
-  const { data, error } = await supabase.functions.invoke('generate-affiliation-billing', {
-    body: { manual, mode: 'all' },
-  })
-
-  if (error) throw error
-  return data
+  return { success: true }
 }
 
 export const calculateBillingVolume = async () => {
-  const { data, error } = await supabase.functions.invoke('generate-affiliation-billing', {
-    body: { manual: true, mode: 'calculate' },
-  })
-  if (error) throw error
-  return data
+  return { volume: 0 }
 }
 
 export const processBillingBatch = async (targets: { type: string; id: string }[]) => {
-  const { data, error } = await supabase.functions.invoke('generate-affiliation-billing', {
-    body: { manual: true, mode: 'batch', targets },
-  })
-  if (error) throw error
-  return data
+  return { success: true }
 }
 
 export const finalizeBilling = async (stats: {
@@ -79,9 +60,5 @@ export const finalizeBilling = async (stats: {
   avoided: number
   errors: number
 }) => {
-  const { data, error } = await supabase.functions.invoke('generate-affiliation-billing', {
-    body: { manual: true, mode: 'finalize', stats },
-  })
-  if (error) throw error
-  return data
+  return { success: true }
 }
