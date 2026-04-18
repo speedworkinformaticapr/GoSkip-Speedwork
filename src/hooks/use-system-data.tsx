@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { useToast } from '@/hooks/use-toast'
+import { supabase } from '@/lib/supabase/client'
 
 export const SYSTEM_DATA_ID = '00000000-0000-0000-0000-000000000001'
 
@@ -62,23 +63,76 @@ export const useSystemData = () => {
 }
 
 export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState<SystemData | null>({
-    id: SYSTEM_DATA_ID,
-    razao_social: 'Speedwork Informática',
-    slogan: 'A plataforma de gestão ideal',
-    cnpj: '00.000.000/0001-00',
-    email: 'contato@speedwork.com',
-    phone: '(11) 99999-9999',
-    dark_mode: false,
-    language: 'pt-BR',
-  })
-  const [loading] = useState(false)
+  const [data, setData] = useState<SystemData | null>(null)
+  const [loading, setLoading] = useState(true)
   const { toast } = useToast()
 
+  useEffect(() => {
+    const fetchSystemData = async () => {
+      try {
+        const { data: sysData, error } = await supabase
+          .from('system_data')
+          .select('*')
+          .eq('id', SYSTEM_DATA_ID)
+          .single()
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error fetching system data', error)
+        }
+
+        if (sysData) {
+          setData(sysData)
+        } else {
+          // Default data if table is empty or Supabase not connected
+          setData({
+            id: SYSTEM_DATA_ID,
+            razao_social: 'Speedwork Informática',
+            slogan: 'A plataforma de gestão ideal',
+            cnpj: '00.000.000/0001-00',
+            email: 'contato@speedwork.com',
+            phone: '(11) 99999-9999',
+            dark_mode: false,
+            language: 'pt-BR',
+          })
+        }
+      } catch (error) {
+        console.error('Exception fetching system data', error)
+        setData({
+          id: SYSTEM_DATA_ID,
+          razao_social: 'Speedwork Informática',
+          slogan: 'A plataforma de gestão ideal',
+          cnpj: '00.000.000/0001-00',
+          email: 'contato@speedwork.com',
+          phone: '(11) 99999-9999',
+          dark_mode: false,
+          language: 'pt-BR',
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSystemData()
+  }, [])
+
   const updateData = async (updates: Partial<SystemData>) => {
-    setData((prev) => (prev ? { ...prev, ...updates } : null))
-    toast({ title: 'Sucesso', description: 'Configurações atualizadas com sucesso.' })
-    return true
+    try {
+      const { error } = await supabase.from('system_data').update(updates).eq('id', SYSTEM_DATA_ID)
+
+      if (error) throw error
+
+      setData((prev) => (prev ? { ...prev, ...updates } : null))
+      toast({ title: 'Sucesso', description: 'Configurações atualizadas com sucesso.' })
+      return true
+    } catch (error) {
+      console.error('Error updating system data:', error)
+      toast({
+        title: 'Erro',
+        description: 'Falha ao atualizar configurações.',
+        variant: 'destructive',
+      })
+      return false
+    }
   }
 
   return (

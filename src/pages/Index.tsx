@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { SectionRenderer } from '@/components/sections/SectionRenderer'
 import { useSeo } from '@/hooks/use-seo'
 import { HeroCarousel } from '@/components/sections/HeroCarousel'
+import { supabase } from '@/lib/supabase/client'
 
 export default function Index() {
   const [sections, setSections] = useState<any[]>([])
@@ -14,18 +15,25 @@ export default function Index() {
   })
 
   useEffect(() => {
-    // Static fallback to replace the removed database connection
-    const loadStaticData = async () => {
-      // Simulate network request delay
-      await new Promise((resolve) => setTimeout(resolve, 400))
+    const fetchSections = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('sections')
+          .select('*')
+          .order('order', { ascending: true })
 
-      // Providing an empty array safely triggers the existing empty state UI
-      // without risking a crash inside SectionRenderer with unknown mock schemas
-      setSections([])
-      setLoading(false)
+        if (error) throw error
+
+        setSections(data || [])
+      } catch (error) {
+        console.error('Error fetching sections:', error)
+        setSections([])
+      } finally {
+        setLoading(false)
+      }
     }
 
-    loadStaticData()
+    fetchSections()
   }, [])
 
   if (loading) {
