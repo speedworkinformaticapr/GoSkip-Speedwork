@@ -16,29 +16,32 @@ export default function Index() {
 
   useEffect(() => {
     const fetchSections = async () => {
-      if (!import.meta.env.VITE_SUPABASE_URL) {
-        setSections([])
-        setLoading(false)
-        return
-      }
-
       try {
+        if (!import.meta.env.VITE_SUPABASE_URL) {
+          setSections([])
+          setLoading(false)
+          return
+        }
+
         const { data, error } = await supabase
           .from('sections')
           .select('*')
           .order('order', { ascending: true })
 
-        if (error) throw error
+        if (error) {
+          // Gracefully handle Supabase API errors instead of throwing
+          console.warn('Failed to fetch sections:', error.message || error)
+          setSections([])
+          return
+        }
 
         setSections(data || [])
       } catch (error: any) {
-        const isFetchError =
-          error?.message === 'Failed to fetch' ||
-          error?.message?.includes?.('Failed to fetch') ||
-          (error instanceof TypeError && error.message === 'Failed to fetch')
-        if (!isFetchError) {
-          console.error('Error fetching sections:', error)
-        }
+        // Robust error handling to catch unhandled promise rejections or TypeErrors (Failed to fetch)
+        console.warn(
+          'Network or unexpected error while fetching sections:',
+          error?.message || 'Failed to fetch',
+        )
         setSections([])
       } finally {
         setLoading(false)
