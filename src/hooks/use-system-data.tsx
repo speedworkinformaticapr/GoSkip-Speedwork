@@ -69,6 +69,21 @@ export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchSystemData = async () => {
+      if (!import.meta.env.VITE_SUPABASE_URL) {
+        setData({
+          id: SYSTEM_DATA_ID,
+          razao_social: 'Speedwork Informática',
+          slogan: 'A plataforma de gestão ideal',
+          cnpj: '00.000.000/0001-00',
+          email: 'contato@speedwork.com',
+          phone: '(11) 99999-9999',
+          dark_mode: false,
+          language: 'pt-BR',
+        })
+        setLoading(false)
+        return
+      }
+
       try {
         const { data: sysData, error } = await supabase
           .from('system_data')
@@ -77,7 +92,13 @@ export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
           .single()
 
         if (error && error.code !== 'PGRST116') {
-          console.error('Error fetching system data', error)
+          const isFetchError =
+            error.message === 'Failed to fetch' ||
+            error.message?.includes('Failed to fetch') ||
+            (error as any).details?.includes('Failed to fetch')
+          if (!isFetchError) {
+            console.error('Error fetching system data', error)
+          }
         }
 
         if (sysData) {
@@ -95,8 +116,14 @@ export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
             language: 'pt-BR',
           })
         }
-      } catch (error) {
-        console.error('Exception fetching system data', error)
+      } catch (error: any) {
+        const isFetchError =
+          error?.message === 'Failed to fetch' ||
+          error?.message?.includes?.('Failed to fetch') ||
+          (error instanceof TypeError && error.message === 'Failed to fetch')
+        if (!isFetchError) {
+          console.error('Exception fetching system data', error)
+        }
         setData({
           id: SYSTEM_DATA_ID,
           razao_social: 'Speedwork Informática',

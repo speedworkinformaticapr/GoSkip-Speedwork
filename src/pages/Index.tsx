@@ -16,6 +16,12 @@ export default function Index() {
 
   useEffect(() => {
     const fetchSections = async () => {
+      if (!import.meta.env.VITE_SUPABASE_URL) {
+        setSections([])
+        setLoading(false)
+        return
+      }
+
       try {
         const { data, error } = await supabase
           .from('sections')
@@ -25,8 +31,14 @@ export default function Index() {
         if (error) throw error
 
         setSections(data || [])
-      } catch (error) {
-        console.error('Error fetching sections:', error)
+      } catch (error: any) {
+        const isFetchError =
+          error?.message === 'Failed to fetch' ||
+          error?.message?.includes?.('Failed to fetch') ||
+          (error instanceof TypeError && error.message === 'Failed to fetch')
+        if (!isFetchError) {
+          console.error('Error fetching sections:', error)
+        }
         setSections([])
       } finally {
         setLoading(false)
