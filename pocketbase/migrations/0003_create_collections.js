@@ -55,18 +55,6 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        {
-          name: 'club_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('clubs').id,
-          maxSelect: 1,
-        },
-        {
-          name: 'category_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('athlete_categories').id,
-          maxSelect: 1,
-        },
         { name: 'ranking_points', type: 'number' },
         { name: 'name', type: 'text' },
         { name: 'cpf', type: 'text' },
@@ -79,34 +67,6 @@ migrate(
       ],
     })
     app.save(athletes)
-
-    const users = app.findCollectionByNameOrId('_pb_users_auth_')
-    if (!users.fields.getByName('theme')) users.fields.add(new TextField({ name: 'theme' }))
-    if (!users.fields.getByName('cpf_cnpj')) users.fields.add(new TextField({ name: 'cpf_cnpj' }))
-    if (!users.fields.getByName('birth_date'))
-      users.fields.add(new DateField({ name: 'birth_date' }))
-    if (!users.fields.getByName('phone')) users.fields.add(new TextField({ name: 'phone' }))
-    if (!users.fields.getByName('is_athlete'))
-      users.fields.add(new BoolField({ name: 'is_athlete' }))
-    if (!users.fields.getByName('club_id'))
-      users.fields.add(
-        new RelationField({
-          name: 'club_id',
-          collectionId: app.findCollectionByNameOrId('clubs').id,
-          maxSelect: 1,
-        }),
-      )
-    if (!users.fields.getByName('category_id'))
-      users.fields.add(
-        new RelationField({
-          name: 'category_id',
-          collectionId: app.findCollectionByNameOrId('athlete_categories').id,
-          maxSelect: 1,
-        }),
-      )
-    if (!users.fields.getByName('categoria')) users.fields.add(new TextField({ name: 'categoria' }))
-    if (!users.fields.getByName('status')) users.fields.add(new TextField({ name: 'status' }))
-    app.save(users)
 
     const systemData = new Collection({
       name: 'system_data',
@@ -252,12 +212,6 @@ migrate(
         { name: 'price', type: 'number', required: true },
         { name: 'stock', type: 'number', required: true },
         {
-          name: 'group_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('product_groups').id,
-          maxSelect: 1,
-        },
-        {
           name: 'image',
           type: 'file',
           maxSelect: 1,
@@ -303,20 +257,6 @@ migrate(
       updateRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
-        {
-          name: 'order_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('orders').id,
-          required: true,
-          maxSelect: 1,
-        },
-        {
-          name: 'product_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('products').id,
-          required: true,
-          maxSelect: 1,
-        },
         { name: 'quantity', type: 'number', required: true },
         { name: 'price', type: 'number', required: true },
         { name: 'created', type: 'autodate', onCreate: true, onUpdate: false },
@@ -377,12 +317,6 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        {
-          name: 'service_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('services').id,
-          maxSelect: 1,
-        },
         { name: 'appointment_date', type: 'date', required: true },
         { name: 'status', type: 'text' },
         { name: 'notes', type: 'text' },
@@ -405,12 +339,6 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        {
-          name: 'service_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('services').id,
-          maxSelect: 1,
-        },
         { name: 'status', type: 'text' },
         { name: 'details', type: 'text' },
         { name: 'estimated_price', type: 'number' },
@@ -450,12 +378,6 @@ migrate(
         { name: 'title', type: 'text', required: true },
         { name: 'slug', type: 'text' },
         { name: 'description', type: 'text' },
-        {
-          name: 'course_id',
-          type: 'relation',
-          collectionId: app.findCollectionByNameOrId('courses').id,
-          maxSelect: 1,
-        },
         { name: 'start_date', type: 'date' },
         { name: 'end_date', type: 'date' },
         { name: 'status', type: 'text' },
