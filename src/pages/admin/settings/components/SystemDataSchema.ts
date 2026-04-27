@@ -67,6 +67,7 @@ export const systemDataSchema = z.object({
   term_content_uso: z.string().optional().nullable(),
   term_content_lgpd: z.string().optional().nullable(),
   term_content_cookies: z.string().optional().nullable(),
+  active_theme: z.string().optional().nullable(),
 })
 
 export type SystemDataFormData = z.infer<typeof systemDataSchema>

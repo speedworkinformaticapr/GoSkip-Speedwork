@@ -58,10 +58,245 @@
   }
 }
 
+@layer base {
+  .theme-dark-tech {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 216 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 152 100% 50%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    --accent: 216 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 216 100% 50%;
+    --radius: 0.75rem;
+  }
+
+  .theme-gradient-momentum {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 33% 98%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 220 33% 98%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 220 20% 90%;
+    --input: 220 20% 90%;
+    --ring: 262 83% 58%;
+    --radius: 1rem;
+  }
+
+  .theme-corporate-elegance {
+    --background: 0 0% 100%;
+    --foreground: 220 28% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 28% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 28% 17%;
+    --primary: 212 100% 25%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 216 33% 97%;
+    --secondary-foreground: 220 28% 17%;
+    --muted: 216 33% 97%;
+    --muted-foreground: 220 10% 40%;
+    --accent: 212 100% 25%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 210 20% 83%;
+    --input: 210 20% 83%;
+    --ring: 212 100% 25%;
+    --radius: 0.5rem;
+  }
+
+  .theme-neon-edge {
+    --background: 232 59% 10%;
+    --foreground: 0 0% 100%;
+    --card: 231 38% 16%;
+    --card-foreground: 0 0% 100%;
+    --popover: 231 38% 16%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 334 100% 50%;
+    --primary-foreground: 232 59% 10%;
+    --secondary: 184 100% 50%;
+    --secondary-foreground: 232 59% 10%;
+    --muted: 231 38% 20%;
+    --muted-foreground: 0 0% 70%;
+    --accent: 334 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 334 100% 50%;
+    --input: 184 100% 50%;
+    --ring: 334 100% 50%;
+    --radius: 0.25rem;
+  }
+
+  .theme-minimal-zen {
+    --background: 0 0% 98%;
+    --foreground: 0 0% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 18%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 18%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 210 10% 50%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 160 84% 39%;
+    --radius: 0.75rem;
+  }
+}
+
 @layer components {
   .glass-header {
     @apply bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-border/50;
   }
+}
+
+/* 1. Dark Tech Premium */
+.theme-dark-tech {
+  font-family: 'Inter', sans-serif;
+}
+.theme-dark-tech .bg-card {
+  box-shadow: 0 8px 32px rgba(0, 102, 255, 0.1);
+}
+.theme-dark-tech .bg-primary {
+  background: linear-gradient(90deg, #0066ff, #00ff88);
+  border: none;
+  transition: all 0.3s ease;
+}
+.theme-dark-tech .bg-primary:hover {
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+}
+.theme-dark-tech footer {
+  background: #0d0d0d !important;
+  color: #999 !important;
+  border-top-color: #333 !important;
+}
+.theme-dark-tech footer h4 {
+  color: #00ff88 !important;
+}
+
+/* 2. Gradient Momentum */
+.theme-gradient-momentum {
+  font-family: 'Inter', sans-serif;
+}
+.theme-gradient-momentum h1,
+.theme-gradient-momentum h2,
+.theme-gradient-momentum h3,
+.theme-gradient-momentum h4 {
+  font-weight: 700;
+}
+.theme-gradient-momentum .bg-card {
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.08);
+}
+.theme-gradient-momentum .bg-primary {
+  background: linear-gradient(90deg, #7c3aed, #3b82f6);
+  transition: all 0.2s ease-out;
+}
+.theme-gradient-momentum .bg-primary:hover {
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+  transform: translateY(-1px);
+}
+.theme-gradient-momentum footer {
+  background: #f8f9fb !important;
+  color: #666 !important;
+  border-top-color: #e5e7eb !important;
+}
+.theme-gradient-momentum footer h4 {
+  color: #1a1a1a !important;
+}
+
+/* 3. Corporate Elegance */
+.theme-corporate-elegance {
+  font-family: 'Poppins', sans-serif;
+}
+.theme-corporate-elegance .bg-card {
+  box-shadow: 0 2px 8px rgba(0, 61, 130, 0.06);
+}
+.theme-corporate-elegance .bg-primary:hover {
+  background-color: #002c5e;
+}
+.theme-corporate-elegance footer {
+  background: #f5f7fa !important;
+  color: #6b7280 !important;
+  border-top-color: #d1d5db !important;
+}
+.theme-corporate-elegance footer h4 {
+  color: #1f2937 !important;
+}
+
+/* 4. Neon Edge */
+.theme-neon-edge {
+  font-family: 'Inter', sans-serif;
+}
+.theme-neon-edge h1,
+.theme-neon-edge h2,
+.theme-neon-edge h3 {
+  font-weight: 700;
+}
+.theme-neon-edge .bg-card {
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+}
+.theme-neon-edge .bg-primary {
+  transition: all 0.3s ease;
+}
+.theme-neon-edge .bg-primary:hover {
+  box-shadow: 0 0 20px #ff006e;
+}
+.theme-neon-edge input:focus {
+  box-shadow: 0 0 10px #00f5ff;
+}
+.theme-neon-edge footer {
+  background: #0a0e27 !important;
+  border-top: 1px solid #ff006e !important;
+}
+
+/* 5. Minimal Zen */
+.theme-minimal-zen {
+  font-family: 'Inter', sans-serif;
+}
+.theme-minimal-zen .bg-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+.theme-minimal-zen .bg-primary:hover {
+  background-color: #0d9468;
+}
+.theme-minimal-zen footer {
+  background: #f0f0f0 !important;
+  color: #6b7280 !important;
+  border-top-color: #e5e7eb !important;
+}
+.theme-minimal-zen footer h4 {
+  color: #2d2d2d !important;
 }
 
 @layer utilities {

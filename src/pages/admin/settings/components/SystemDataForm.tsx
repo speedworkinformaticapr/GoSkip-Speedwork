@@ -25,6 +25,7 @@ export default function SystemDataForm() {
     defaultValues: {
       records_per_page: 50,
       bg_opacity: 100,
+      active_theme: 'default',
     },
   })
 
@@ -62,6 +63,7 @@ export default function SystemDataForm() {
         accessibility_enabled: data.integrations?.accessibility_enabled ?? true,
         cookie_consent_enabled: data.integrations?.cookie_consent_enabled ?? true,
         whatsapp_number: data.integrations?.whatsapp_number || '',
+        active_theme: data.integrations?.active_theme || 'default',
         term_content_uso: data.terms?.uso || '',
         term_content_lgpd: data.terms?.lgpd || '',
         term_content_cookies: data.terms?.cookies || '',
@@ -205,6 +207,7 @@ export default function SystemDataForm() {
           accessibility_enabled: values.accessibility_enabled,
           cookie_consent_enabled: values.cookie_consent_enabled,
           whatsapp_number: values.whatsapp_number,
+          active_theme: values.active_theme,
         },
         terms: {
           uso: values.term_content_uso,

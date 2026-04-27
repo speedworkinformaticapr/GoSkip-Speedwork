@@ -57,7 +57,28 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement
-    root.classList.remove('light', 'dark')
+    root.classList.remove(
+      'light',
+      'dark',
+      'theme-dark-tech',
+      'theme-gradient-momentum',
+      'theme-corporate-elegance',
+      'theme-neon-edge',
+      'theme-minimal-zen',
+    )
+
+    const activeTheme = systemData?.integrations?.active_theme
+
+    if (activeTheme && activeTheme !== 'default') {
+      root.classList.add(`theme-${activeTheme}`)
+
+      if (['dark-tech', 'neon-edge'].includes(activeTheme)) {
+        root.classList.add('dark')
+      } else {
+        root.classList.add('light')
+      }
+      return
+    }
 
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -68,7 +89,7 @@ export function ThemeProvider({
     }
 
     root.classList.add(theme)
-  }, [theme])
+  }, [theme, systemData?.integrations?.active_theme])
 
   const value = {
     theme,
