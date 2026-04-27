@@ -88,12 +88,10 @@ export const blogService = {
 export const commentService = {
   async getComments(postId: string) {
     try {
-      return (await pb
-        .collection('blog_comments')
-        .getFullList({
-          filter: `post_id="${postId}"`,
-          sort: '-created_at',
-        })) as unknown as BlogComment[]
+      return (await pb.collection('blog_comments').getFullList({
+        filter: `post_id="${postId}"`,
+        sort: '-created_at',
+      })) as unknown as BlogComment[]
     } catch (e) {
       return [] as BlogComment[]
     }
