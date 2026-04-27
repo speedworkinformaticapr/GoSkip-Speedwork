@@ -1,119 +1,68 @@
 import { useState, useEffect } from 'react'
-import { Map, MapPin, Flag, Navigation, Info } from 'lucide-react'
-import { supabase } from '@/lib/supabase/client'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { PageHero } from '@/components/PageHero'
-import { useTranslation } from '@/hooks/use-translation'
-import { useSeo } from '@/hooks/use-seo'
+import pb from '@/lib/pocketbase/client'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { MapPin } from 'lucide-react'
 
 export default function Courses() {
-  const { t } = useTranslation()
   const [courses, setCourses] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
-  useSeo({
-    title: 'Campos Oficiais - Footgolf PR',
-    description: 'Conheça os campos oficiais de Footgolf no Paraná.',
-  })
-
   useEffect(() => {
-    supabase
-      .from('courses')
-      .select('*, clubs(name, city, state)')
-      .eq('status', 'active')
-      .then(({ data }) => {
-        setCourses(data || [])
+    const fetchCourses = async () => {
+      try {
+        const records = await pb.collection('courses').getFullList({
+          sort: '-created',
+        })
+        setCourses(records)
+      } catch (error) {
+        console.error('Error fetching courses:', error)
+      } finally {
         setLoading(false)
-      })
+      }
+    }
+    fetchCourses()
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24 font-sans">
-      <PageHero
-        title={t('courses.title') || 'Campos Oficiais'}
-        description={
-          t('courses.desc') || 'Conheça os campos onde a magia do Footgolf acontece no Paraná.'
-        }
-        breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Campos' }]}
-        icon={<Map className="w-[400px] h-[400px]" />}
-      />
+    <div className="container mx-auto py-12 px-4 animate-fade-in min-h-screen">
+      <div className="flex flex-col items-center text-center mb-10">
+        <h1 className="text-4xl font-extrabold text-foreground mb-4">Campos de Footgolf</h1>
+        <p className="text-lg text-muted-foreground max-w-2xl">
+          Conheça os campos onde o esporte é praticado.
+        </p>
+      </div>
 
-      <main className="container mx-auto px-4 -mt-8 relative z-20">
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1B7D3A]"></div>
-          </div>
-        ) : courses.length === 0 ? (
-          <Card className="p-12 text-center border-none shadow-md">
-            <MapPin className="w-16 h-16 mx-auto text-gray-300 mb-4" />
-            <p className="text-xl text-gray-500">Nenhum campo cadastrado no momento.</p>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course, i) => (
-              <Card
-                key={course.id}
-                className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 group animate-fade-in-up"
-                style={{ animationDelay: `${i * 100}ms` }}
-              >
-                <div className="h-48 overflow-hidden relative bg-gray-200">
-                  <img
-                    src={
-                      course.image_url ||
-                      `https://img.usecurling.com/p/400/300?q=golf%20course&seed=${course.id}`
-                    }
-                    alt={course.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 flex gap-2">
-                    {course.holes && (
-                      <Badge className="bg-white/90 text-[#1B7D3A] backdrop-blur font-bold">
-                        {course.holes} Buracos
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-2xl font-bold mb-2 text-gray-900 group-hover:text-[#1B7D3A] transition-colors">
-                    {course.name}
-                  </h3>
-                  <div className="flex items-center text-gray-600 mb-4 gap-2 text-sm">
-                    <MapPin className="w-4 h-4 text-[#0052CC]" />
-                    <span>
-                      {course.clubs?.city}
-                      {course.clubs?.state ? ` - ${course.clubs.state}` : ''}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 line-clamp-3 mb-6 text-sm">
-                    {course.description ||
-                      'Um excelente campo para a prática do Footgolf com desafios para todos os níveis.'}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex flex-col items-center justify-center">
-                      <span className="text-xs text-gray-500 font-bold uppercase">Par</span>
-                      <span className="text-lg font-black text-[#1B7D3A]">{course.par || '-'}</span>
-                    </div>
-                    <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex flex-col items-center justify-center">
-                      <span className="text-xs text-gray-500 font-bold uppercase">Dificuldade</span>
-                      <span className="text-sm font-bold text-gray-700 capitalize mt-1">
-                        {course.difficulty_rating || 'Média'}
-                      </span>
-                    </div>
-                  </div>
-
-                  <Button className="w-full bg-[#0052CC] hover:bg-[#0041a3] text-white gap-2">
-                    <Info className="w-4 h-4" />
-                    Mais Detalhes
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </main>
+      {loading ? (
+        <div className="flex justify-center p-12">
+          <div className="animate-spin w-10 h-10 border-4 border-primary border-t-transparent rounded-full shadow-md" />
+        </div>
+      ) : courses.length === 0 ? (
+        <div className="text-center py-12 bg-muted/20 rounded-xl border border-border flex flex-col items-center justify-center">
+          <MapPin className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-50" />
+          <p className="text-lg text-muted-foreground font-medium">
+            Nenhum campo encontrado no momento.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((course) => (
+            <Card key={course.id} className="overflow-hidden hover:shadow-md transition-shadow">
+              <CardHeader>
+                <CardTitle className="text-xl">{course.name || course.title || 'Campo'}</CardTitle>
+                <CardDescription className="flex items-center gap-1 mt-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  {course.city || course.location || 'Localização não informada'}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {course.description || 'Nenhuma descrição disponível.'}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
