@@ -1,161 +1,123 @@
-import { useState, useEffect } from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import pb from '@/lib/pocketbase/client'
 import { Button } from '@/components/ui/button'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { useToast } from '@/hooks/use-toast'
-import { Plus, Edit, Trash2 } from 'lucide-react'
-import { Switch } from '@/components/ui/switch'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+import { Plus, Edit, Trash } from 'lucide-react'
 
 export default function AdminSectionsList() {
   const [sections, setSections] = useState<any[]>([])
-  const [itemToDelete, setItemToDelete] = useState<string | null>(null)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const { toast } = useToast()
 
-  const fetchSections = async () => {
-    const { data } = await supabase
-      .from('sections')
-      .select('*')
-      .order('created_at', { ascending: false })
-    setSections(data || [])
-  }
-
   useEffect(() => {
-    fetchSections()
+    loadSections()
   }, [])
 
-  const handleDelete = (id: string) => {
-    setItemToDelete(id)
-  }
-
-  const confirmDelete = async () => {
-    if (!itemToDelete) return
-    setIsDeleting(true)
+  const loadSections = async () => {
     try {
-      const { error } = await supabase.from('sections').delete().eq('id', itemToDelete)
-      if (error) throw error
-      toast({ title: 'Sucesso', description: 'Dobra excluída com sucesso!' })
-      fetchSections()
-    } catch (err: any) {
-      toast({ title: 'Erro ao excluir', description: err.message, variant: 'destructive' })
+      const records = await pb.collection('sections').getFullList({
+        sort: 'created',
+      })
+      setSections(records)
+    } catch (error) {
+      console.error('Error loading sections:', error)
+      toast({
+        title: 'Error',
+        description: 'Could not load sections.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsDeleting(false)
-      setItemToDelete(null)
+      setIsLoading(false)
     }
   }
 
-  const togglePublish = async (id: string, current: boolean) => {
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('Are you sure you want to delete this section?')) return
+
     try {
-      const { error } = await supabase
-        .from('sections')
-        .update({ is_published: !current })
-        .eq('id', id)
-      if (error) throw error
-      toast({ title: 'Sucesso', description: 'Status atualizado com sucesso!' })
-      fetchSections()
-    } catch (err: any) {
-      toast({ title: 'Erro', description: err.message, variant: 'destructive' })
+      await pb.collection('sections').delete(id)
+      toast({ title: 'Success', description: 'Section deleted successfully.' })
+      loadSections()
+    } catch (error) {
+      console.error('Error deleting section:', error)
+      toast({
+        title: 'Error',
+        description: 'Could not delete section.',
+        variant: 'destructive',
+      })
     }
   }
 
   return (
-    <div className="p-8 max-w-5xl mx-auto animate-fade-in-up">
-      <div className="flex justify-between items-center mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-primary">Gerenciar Dobras</h1>
-        </div>
+    <div className="p-6 max-w-4xl mx-auto space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold tracking-tight">Sections</h1>
         <Button asChild>
           <Link to="/admin/sections/new">
-            <Plus className="w-4 h-4 mr-2" /> Nova Dobra
+            <Plus className="w-4 h-4 mr-2" />
+            New Section
           </Link>
         </Button>
       </div>
 
-      <div className="bg-card rounded-xl border shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Tipo de Dobra</TableHead>
-              <TableHead>Nome</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sections.map((s) => (
-              <TableRow key={s.id}>
-                <TableCell className="font-bold uppercase text-primary">{s.type}</TableCell>
-                <TableCell>{s.data?.title || s.data?.name || 'Sem nome'}</TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-2">
-                    <Switch
-                      checked={s.is_published}
-                      onCheckedChange={() => togglePublish(s.id, s.is_published)}
-                    />
-                    <span className="text-sm">{s.is_published ? 'Visível' : 'Oculto'}</span>
-                  </div>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button variant="ghost" size="icon" asChild>
-                    <Link to={`/admin/sections/${s.id}/edit`}>
-                      <Edit className="w-4 h-4" />
-                    </Link>
-                  </Button>
-                  <Button variant="ghost" size="icon" onClick={() => handleDelete(s.id)}>
-                    <Trash2 className="w-4 h-4 text-destructive" />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-            {sections.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center py-10">
-                  Nenhuma dobra configurada.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-
-      <AlertDialog open={!!itemToDelete} onOpenChange={(open) => !open && setItemToDelete(null)}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Tem certeza que deseja excluir?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta ação não pode ser desfeita. A dobra será permanentemente removida.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={confirmDelete}
-              disabled={isDeleting}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              {isDeleting ? 'Excluindo...' : 'Excluir'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {isLoading ? (
+        <div className="text-center py-12 text-muted-foreground">Loading sections...</div>
+      ) : sections.length === 0 ? (
+        <div className="text-center py-16 px-4 border rounded-xl bg-card border-dashed">
+          <h3 className="text-lg font-medium mb-2">No sections found</h3>
+          <p className="text-muted-foreground mb-4">Create your first section to get started.</p>
+          <Button asChild variant="outline">
+            <Link to="/admin/sections/new">
+              <Plus className="w-4 h-4 mr-2" />
+              Create Section
+            </Link>
+          </Button>
+        </div>
+      ) : (
+        <div className="border rounded-xl bg-card overflow-hidden">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-muted/50 border-b">
+              <tr>
+                <th className="px-6 py-4 font-medium">Title</th>
+                <th className="px-6 py-4 font-medium">Created</th>
+                <th className="px-6 py-4 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {sections.map((section) => (
+                <tr key={section.id} className="hover:bg-muted/50 transition-colors">
+                  <td className="px-6 py-4 font-medium">
+                    {section.title || section.name || section.id}
+                  </td>
+                  <td className="px-6 py-4 text-muted-foreground">
+                    {new Date(section.created).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Button variant="ghost" size="icon" asChild>
+                        <Link to={`/admin/sections/${section.id}`}>
+                          <Edit className="w-4 h-4" />
+                          <span className="sr-only">Edit</span>
+                        </Link>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        onClick={() => handleDelete(section.id)}
+                      >
+                        <Trash className="w-4 h-4" />
+                        <span className="sr-only">Delete</span>
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }
