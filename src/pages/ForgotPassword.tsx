@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { Loader2, ArrowLeft } from 'lucide-react'
-import { supabase } from '@/lib/supabase/client'
+import pb from '@/lib/pocketbase/client'
 
 const schema = z.object({
   email: z.string().email('Formato de e-mail inválido'),
@@ -41,15 +41,7 @@ export default function ForgotPassword() {
     setIsLoading(true)
 
     try {
-      const { error } = await supabase.functions.invoke('request-password-reset', {
-        body: {
-          email: data.email,
-          redirectTo: `${window.location.origin}/reset-password`,
-        },
-      })
-
-      if (error) throw error
-
+      await pb.collection('users').requestPasswordReset(data.email)
       setIsSuccess(true)
     } catch (error) {
       console.error('Password reset error:', error)

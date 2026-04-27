@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!record) return ['user']
     const role = record.role || 'user'
     // Map master to include admin so existing UI routes work transparently
-    if (role === 'master') return ['admin', 'master']
+    if (role.toLowerCase() === 'master') return ['admin', 'master']
     return [role]
   }
 

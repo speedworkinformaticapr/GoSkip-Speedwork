@@ -25,12 +25,14 @@ export function useUserRole() {
       const adminEmails = ['ias2371@gmail.com', 'souzaivan31@gmail.com', 'admin@footgolfpr.com.br']
       const userIsAdmin =
         adminEmails.includes(user.email || '') ||
-        profile?.role === 'master' ||
-        profile?.role === 'admin'
+        profile?.role?.toLowerCase() === 'master' ||
+        profile?.role?.toLowerCase() === 'admin'
 
       if (mounted) {
         setIsAdmin(userIsAdmin)
-        setIsClubAdmin(profile?.role === 'club' || profile?.role === 'club_admin')
+        setIsClubAdmin(
+          profile?.role?.toLowerCase() === 'club' || profile?.role?.toLowerCase() === 'club_admin',
+        )
         setClubId(user.club_id || null)
         setLoading(false)
       }

@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { Loader2 } from 'lucide-react'
-import { supabase } from '@/lib/supabase/client'
+import pb from '@/lib/pocketbase/client'
 
 const schema = z
   .object({
@@ -38,46 +38,41 @@ export default function ResetPassword() {
   })
 
   useEffect(() => {
-    const checkSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+    const params = new URLSearchParams(window.location.search)
+    const token = params.get('token')
 
-      if (!session) {
-        toast({
-          title: 'Link inválido ou expirado',
-          description: 'Por favor, solicite a recuperação de senha novamente.',
-          variant: 'destructive',
-        })
-        navigate('/forgot-password')
-      } else {
-        setIsChecking(false)
-      }
+    if (!token) {
+      toast({
+        title: 'Link inválido ou expirado',
+        description: 'Por favor, solicite a recuperação de senha novamente.',
+        variant: 'destructive',
+      })
+      navigate('/forgot-password')
+    } else {
+      setIsChecking(false)
     }
-
-    checkSession()
   }, [navigate, toast])
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true)
 
     try {
-      const { error } = await supabase.auth.updateUser({
-        password: data.password,
-      })
+      const params = new URLSearchParams(window.location.search)
+      const token = params.get('token') || ''
 
-      if (error) throw error
+      await pb.collection('users').confirmPasswordReset(token, data.password, data.confirmPassword)
 
       toast({
         title: 'Senha atualizada',
         description: 'Sua senha foi redefinida com sucesso!',
         className: 'bg-[#4ADE80] text-white border-none',
       })
-      navigate('/')
+      navigate('/login')
     } catch (error: any) {
       toast({
         title: 'Erro ao atualizar senha',
-        description: error.message || 'Ocorreu um erro ao tentar redefinir a senha.',
+        description:
+          error.message || 'Ocorreu um erro ao tentar redefinir a senha. O link pode ter expirado.',
         variant: 'destructive',
       })
     } finally {
