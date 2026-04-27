@@ -42,7 +42,6 @@ import { useCartStore } from '@/stores/useCartStore'
 import { useEffect, useState } from 'react'
 import { useUserRole } from '@/hooks/use-user-role'
 import { NotificationBell } from './NotificationBell'
-import { supabase } from '@/lib/supabase/client'
 import { useSystemData } from '@/hooks/use-system-data'
 import { MapPin, Instagram, Facebook, Youtube } from 'lucide-react'
 import pb from '@/lib/pocketbase/client'
@@ -66,33 +65,37 @@ export function Navbar() {
 
   useEffect(() => {
     const loadDynamicPages = async () => {
-      const { data } = await supabase
-        .from('pages' as any)
-        .select('title, slug, display_order, is_published')
-        .order('display_order', { ascending: true })
+      try {
+        const data = await pb.collection('pages').getFullList({
+          sort: 'display_order',
+          fields: 'title,slug,display_order,is_published,submenus',
+        })
 
-      if (data) {
-        setAllPages(data)
-        const published = data.filter((p: any) => p.is_published)
+        if (data) {
+          setAllPages(data)
+          const published = data.filter((p: any) => p.is_published)
 
-        const getIconForSlug = (slug: string) => {
-          if (slug.includes('curso')) return BookOpen
-          if (slug.includes('torneio')) return Trophy
-          if (slug.includes('ranking')) return Medal
-          if (slug.includes('regra')) return ShieldCheck
-          return FileText
+          const getIconForSlug = (slug: string) => {
+            if (slug.includes('curso')) return BookOpen
+            if (slug.includes('torneio')) return Trophy
+            if (slug.includes('ranking')) return Medal
+            if (slug.includes('regra')) return ShieldCheck
+            return FileText
+          }
+
+          setDynamicLinks(
+            published.map((p: any) => ({
+              key: `page-${p.slug}`,
+              label: p.title,
+              path: `/${p.slug}`,
+              icon: getIconForSlug(p.slug),
+              isDynamic: true,
+              submenus: p.submenus || [],
+            })),
+          )
         }
-
-        setDynamicLinks(
-          published.map((p: any) => ({
-            key: `page-${p.slug}`,
-            label: p.title,
-            path: `/${p.slug}`,
-            icon: getIconForSlug(p.slug),
-            isDynamic: true,
-            submenus: p.submenus || [],
-          })),
-        )
+      } catch (err) {
+        console.error('Error fetching dynamic pages:', err)
       }
     }
     loadDynamicPages()

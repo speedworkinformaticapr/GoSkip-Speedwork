@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/use-auth'
-import { supabase } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -41,20 +40,8 @@ export default function Profile() {
       if (!user) return
 
       try {
-        const { data, error } = await supabase
-          .from('athletes')
-          .select('*')
-          .eq('user_id', user.id)
-          .single()
-
-        if (error) {
-          if (error.code !== 'PGRST116') {
-            console.error('Error fetching profile:', error)
-          } else {
-            // Use auth user data if no athlete profile found yet
-            setProfile((prev) => ({ ...prev, name: user.name || '' }))
-          }
-        } else if (data) {
+        try {
+          const data = await pb.collection('athletes').getFirstListItem(`user_id="${user.id}"`)
           setProfile({
             name: data.name || user.name || '',
             cpf: data.cpf || '',
@@ -62,6 +49,12 @@ export default function Profile() {
             handicap: data.handicap || 0,
             category: data.category || '',
           })
+        } catch (error: any) {
+          if (error.status !== 404) {
+            console.error('Error fetching profile:', error)
+          }
+          // Use auth user data if no athlete profile found yet
+          setProfile((prev) => ({ ...prev, name: user.name || '' }))
         }
       } catch (err) {
         console.error('Error in fetchProfile:', err)
@@ -133,33 +126,27 @@ export default function Profile() {
 
     setSaving(true)
     try {
-      const { data: existingAthlete } = await supabase
-        .from('athletes')
-        .select('id')
-        .eq('user_id', user.id)
-        .single()
+      let existingAthlete
+      try {
+        existingAthlete = await pb.collection('athletes').getFirstListItem(`user_id="${user.id}"`)
+      } catch (err: any) {
+        if (err.status !== 404) throw err
+      }
 
       if (existingAthlete) {
-        const { error } = await supabase
-          .from('athletes')
-          .update({
-            name: profile.name,
-            cpf: profile.cpf,
-            phone: profile.phone,
-          })
-          .eq('user_id', user.id)
-
-        if (error) throw error
+        await pb.collection('athletes').update(existingAthlete.id, {
+          name: profile.name,
+          cpf: profile.cpf,
+          phone: profile.phone,
+        })
       } else {
-        const { error } = await supabase.from('athletes').insert({
+        await pb.collection('athletes').create({
           user_id: user.id,
           name: profile.name,
           cpf: profile.cpf,
           phone: profile.phone,
           email: user.email,
         })
-
-        if (error) throw error
       }
 
       if (profile.name !== user.name) {

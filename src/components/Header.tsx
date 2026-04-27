@@ -12,8 +12,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { useAuth } from '@/hooks/use-auth'
 import { useSystemData } from '@/hooks/use-system-data'
-import { supabase } from '@/lib/supabase/client'
 import { cn } from '@/lib/utils'
+import pb from '@/lib/pocketbase/client'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -25,15 +25,18 @@ export default function Header() {
 
   useEffect(() => {
     const fetchPages = async () => {
-      const { data } = await supabase
-        .from('pages')
-        .select('id, title, slug')
-        .eq('is_published', true)
-        .order('display_order', { ascending: true })
-
-      if (data) {
-        // Remove slugs que já possuem menus dedicados para evitar duplicidade
-        setPages(data.filter((p) => p.slug !== 'services' && p.slug !== 'portal-de-servicos'))
+      try {
+        const data = await pb.collection('pages').getFullList({
+          filter: 'is_published = true',
+          sort: 'display_order',
+          fields: 'id,title,slug',
+        })
+        if (data) {
+          // Remove slugs que já possuem menus dedicados para evitar duplicidade
+          setPages(data.filter((p) => p.slug !== 'services' && p.slug !== 'portal-de-servicos'))
+        }
+      } catch (err) {
+        console.error('Error fetching pages:', err)
       }
     }
     fetchPages()
