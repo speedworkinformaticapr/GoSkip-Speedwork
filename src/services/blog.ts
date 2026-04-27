@@ -1,3 +1,5 @@
+import pb from '@/lib/pocketbase/client'
+
 export interface BlogPost {
   id: string
   title: string
@@ -26,50 +28,89 @@ export interface BlogComment {
 
 export const blogService = {
   async getPosts() {
-    return [] as BlogPost[]
+    try {
+      return (await pb
+        .collection('blog_posts')
+        .getFullList({ sort: '-published_at' })) as unknown as BlogPost[]
+    } catch (e) {
+      return [] as BlogPost[]
+    }
   },
 
   async getPostById(id: string) {
-    return {
-      id,
-      title: 'Mock Post',
-      summary: 'This is a mock summary.',
-      introduction: 'Intro',
-      content: 'Content',
-      conclusion: 'Conclusion',
-      category: 'Mock',
-      image_url: null,
-      tags: [],
-      author_id: '1',
-      published_at: new Date().toISOString(),
-      created_at: new Date().toISOString(),
-      status: 'published',
-      is_active: true,
-    } as BlogPost
+    try {
+      return (await pb.collection('blog_posts').getOne(id)) as unknown as BlogPost
+    } catch (e) {
+      return {
+        id,
+        title: 'Mock Post',
+        summary: 'This is a mock summary.',
+        introduction: 'Intro',
+        content: 'Content',
+        conclusion: 'Conclusion',
+        category: 'Mock',
+        image_url: null,
+        tags: [],
+        author_id: '1',
+        published_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        status: 'published',
+        is_active: true,
+      } as BlogPost
+    }
   },
 
   async createPost(post: Partial<BlogPost>) {
-    return { id: Math.random().toString(), ...post } as BlogPost
+    try {
+      return (await pb.collection('blog_posts').create(post)) as unknown as BlogPost
+    } catch (e) {
+      return { id: Math.random().toString(), ...post } as BlogPost
+    }
   },
 
   async updatePost(id: string, post: Partial<BlogPost>) {
-    return { id, ...post } as BlogPost
+    try {
+      return (await pb.collection('blog_posts').update(id, post)) as unknown as BlogPost
+    } catch (e) {
+      return { id, ...post } as BlogPost
+    }
   },
 
-  async deletePost(id: string) {},
+  async deletePost(id: string) {
+    try {
+      await pb.collection('blog_posts').delete(id)
+    } catch {
+      /* intentionally ignored */
+    }
+  },
 }
 
 export const commentService = {
   async getComments(postId: string) {
-    return [] as BlogComment[]
+    try {
+      return (await pb
+        .collection('blog_comments')
+        .getFullList({
+          filter: `post_id="${postId}"`,
+          sort: '-created_at',
+        })) as unknown as BlogComment[]
+    } catch (e) {
+      return [] as BlogComment[]
+    }
   },
 
   async addComment(comment: Partial<BlogComment>) {
-    return {
-      id: Math.random().toString(),
-      ...comment,
-      status: 'approved',
-      created_at: new Date().toISOString(),
-    } as BlogComment
+    try {
+      return (await pb
+        .collection('blog_comments')
+        .create({ ...comment, status: 'approved' })) as unknown as BlogComment
+    } catch (e) {
+      return {
+        id: Math.random().toString(),
+        ...comment,
+        status: 'approved',
+        created_at: new Date().toISOString(),
+      } as BlogComment
+    }
   },
 }

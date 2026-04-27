@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase/client'
+import pb from '@/lib/pocketbase/client'
 
 export const SYSTEM_DATA_ID = '00000000-0000-0000-0000-000000000001'
 
@@ -69,61 +69,14 @@ export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const fetchSystemData = async () => {
-      if (!import.meta.env.VITE_SUPABASE_URL) {
-        setData({
-          id: SYSTEM_DATA_ID,
-          razao_social: 'Speedwork Informática',
-          slogan: 'A plataforma de gestão ideal',
-          cnpj: '00.000.000/0001-00',
-          email: 'contato@speedwork.com',
-          phone: '(11) 99999-9999',
-          dark_mode: false,
-          language: 'pt-BR',
-        })
-        setLoading(false)
-        return
-      }
-
       try {
-        const { data: sysData, error } = await supabase
-          .from('system_data')
-          .select('*')
-          .eq('id', SYSTEM_DATA_ID)
-          .single()
-
-        if (error && error.code !== 'PGRST116') {
-          const isFetchError =
-            error.message === 'Failed to fetch' ||
-            error.message?.includes('Failed to fetch') ||
-            (error as any).details?.includes('Failed to fetch')
-          if (!isFetchError) {
-            console.error('Error fetching system data', error)
-          }
-        }
-
+        const sysData = await pb.collection('system_data').getFirstListItem('')
         if (sysData) {
-          setData(sysData)
+          setData(sysData as unknown as SystemData)
         } else {
-          // Default data if table is empty or Supabase not connected
-          setData({
-            id: SYSTEM_DATA_ID,
-            razao_social: 'Speedwork Informática',
-            slogan: 'A plataforma de gestão ideal',
-            cnpj: '00.000.000/0001-00',
-            email: 'contato@speedwork.com',
-            phone: '(11) 99999-9999',
-            dark_mode: false,
-            language: 'pt-BR',
-          })
+          throw new Error('Not found')
         }
       } catch (error: any) {
-        const isFetchError =
-          error?.message === 'Failed to fetch' ||
-          error?.message?.includes?.('Failed to fetch') ||
-          (error instanceof TypeError && error.message === 'Failed to fetch')
-        if (!isFetchError) {
-          console.error('Exception fetching system data', error)
-        }
         setData({
           id: SYSTEM_DATA_ID,
           razao_social: 'Speedwork Informática',
@@ -144,9 +97,14 @@ export const SystemDataProvider = ({ children }: { children: ReactNode }) => {
 
   const updateData = async (updates: Partial<SystemData>) => {
     try {
-      const { error } = await supabase.from('system_data').update(updates).eq('id', SYSTEM_DATA_ID)
+      let recordId = data?.id
+      if (!recordId || recordId === SYSTEM_DATA_ID) {
+        const records = await pb.collection('system_data').getFullList()
+        if (records.length > 0) recordId = records[0].id
+        else throw new Error('No record found')
+      }
 
-      if (error) throw error
+      await pb.collection('system_data').update(recordId, updates)
 
       setData((prev) => (prev ? { ...prev, ...updates } : null))
       toast({ title: 'Sucesso', description: 'Configurações atualizadas com sucesso.' })

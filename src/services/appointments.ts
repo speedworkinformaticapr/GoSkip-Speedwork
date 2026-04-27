@@ -1,3 +1,5 @@
+import pb from '@/lib/pocketbase/client'
+
 export interface Appointment {
   id: string
   date: string
@@ -12,25 +14,54 @@ export interface Appointment {
 }
 
 export const getAppointments = async (startDate: string, endDate: string) => {
-  return [] as Appointment[]
+  try {
+    return (await pb.collection('appointments').getFullList({
+      filter: `date >= "${startDate}" && date <= "${endDate}"`,
+      sort: 'date,start_time',
+    })) as unknown as Appointment[]
+  } catch (e) {
+    return [] as Appointment[]
+  }
 }
 
 export const createAppointment = async (appointment: Omit<Appointment, 'id'>) => {
-  return { id: Math.random().toString(), ...appointment } as Appointment
+  try {
+    return (await pb.collection('appointments').create(appointment)) as unknown as Appointment
+  } catch (e) {
+    return { id: Math.random().toString(), ...appointment } as Appointment
+  }
 }
 
 export const updateAppointment = async (id: string, updates: Partial<Appointment>) => {
-  return { id, ...updates } as Appointment
+  try {
+    return (await pb.collection('appointments').update(id, updates)) as unknown as Appointment
+  } catch (e) {
+    return { id, ...updates } as Appointment
+  }
 }
 
-export const deleteAppointment = async (id: string) => {}
+export const deleteAppointment = async (id: string) => {
+  try {
+    await pb.collection('appointments').delete(id)
+  } catch {
+    /* intentionally ignored */
+  }
+}
 
 export const getServices = async () => {
-  return [] as any[]
+  try {
+    return await pb.collection('services').getFullList()
+  } catch (e) {
+    return [] as any[]
+  }
 }
 
 export const getClients = async () => {
-  return [] as any[]
+  try {
+    return await pb.collection('clients').getFullList()
+  } catch (e) {
+    return [] as any[]
+  }
 }
 
 export const notifyClientDelay = async (

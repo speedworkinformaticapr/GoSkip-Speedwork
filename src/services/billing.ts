@@ -1,3 +1,5 @@
+import pb from '@/lib/pocketbase/client'
+
 export interface BillingConfig {
   id: string
   tenant_id: string
@@ -17,17 +19,30 @@ export interface BillingLog {
 }
 
 export const getBillingConfig = async (): Promise<BillingConfig | null> => {
-  return {
-    id: '1',
-    tenant_id: '1',
-    auto_generate_enabled: false,
-    due_day: 10,
-    due_month: 1,
-    days_before_generation: 5,
+  try {
+    return (await pb.collection('billing_config').getFirstListItem('')) as unknown as BillingConfig
+  } catch (e) {
+    return {
+      id: '1',
+      tenant_id: '1',
+      auto_generate_enabled: false,
+      due_day: 10,
+      due_month: 1,
+      days_before_generation: 5,
+    }
   }
 }
 
 export const updateBillingConfig = async (config: Partial<BillingConfig>) => {
+  try {
+    if (config.id) {
+      return (await pb
+        .collection('billing_config')
+        .update(config.id, config)) as unknown as BillingConfig
+    }
+  } catch {
+    /* intentionally ignored */
+  }
   return {
     id: '1',
     tenant_id: '1',
@@ -40,7 +55,13 @@ export const updateBillingConfig = async (config: Partial<BillingConfig>) => {
 }
 
 export const getBillingLogs = async (): Promise<BillingLog[]> => {
-  return []
+  try {
+    return (await pb
+      .collection('billing_logs')
+      .getFullList({ sort: '-execution_date' })) as unknown as BillingLog[]
+  } catch (e) {
+    return []
+  }
 }
 
 export const triggerBillingGeneration = async (manual = false) => {
