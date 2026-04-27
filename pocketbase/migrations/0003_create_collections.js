@@ -55,8 +55,18 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        { name: 'club_id', type: 'relation', collectionId: clubs.id, maxSelect: 1 },
-        { name: 'category_id', type: 'relation', collectionId: athleteCategories.id, maxSelect: 1 },
+        {
+          name: 'club_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('clubs').id,
+          maxSelect: 1,
+        },
+        {
+          name: 'category_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('athlete_categories').id,
+          maxSelect: 1,
+        },
         { name: 'ranking_points', type: 'number' },
         { name: 'name', type: 'text' },
         { name: 'cpf', type: 'text' },
@@ -79,12 +89,18 @@ migrate(
     if (!users.fields.getByName('is_athlete'))
       users.fields.add(new BoolField({ name: 'is_athlete' }))
     if (!users.fields.getByName('club_id'))
-      users.fields.add(new RelationField({ name: 'club_id', collectionId: clubs.id, maxSelect: 1 }))
+      users.fields.add(
+        new RelationField({
+          name: 'club_id',
+          collectionId: app.findCollectionByNameOrId('clubs').id,
+          maxSelect: 1,
+        }),
+      )
     if (!users.fields.getByName('category_id'))
       users.fields.add(
         new RelationField({
           name: 'category_id',
-          collectionId: athleteCategories.id,
+          collectionId: app.findCollectionByNameOrId('athlete_categories').id,
           maxSelect: 1,
         }),
       )
@@ -235,7 +251,12 @@ migrate(
         { name: 'description', type: 'text' },
         { name: 'price', type: 'number', required: true },
         { name: 'stock', type: 'number', required: true },
-        { name: 'group_id', type: 'relation', collectionId: productGroups.id, maxSelect: 1 },
+        {
+          name: 'group_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('product_groups').id,
+          maxSelect: 1,
+        },
         {
           name: 'image',
           type: 'file',
@@ -285,14 +306,14 @@ migrate(
         {
           name: 'order_id',
           type: 'relation',
-          collectionId: orders.id,
+          collectionId: app.findCollectionByNameOrId('orders').id,
           required: true,
           maxSelect: 1,
         },
         {
           name: 'product_id',
           type: 'relation',
-          collectionId: products.id,
+          collectionId: app.findCollectionByNameOrId('products').id,
           required: true,
           maxSelect: 1,
         },
@@ -356,7 +377,12 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        { name: 'service_id', type: 'relation', collectionId: services.id, maxSelect: 1 },
+        {
+          name: 'service_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('services').id,
+          maxSelect: 1,
+        },
         { name: 'appointment_date', type: 'date', required: true },
         { name: 'status', type: 'text' },
         { name: 'notes', type: 'text' },
@@ -379,7 +405,12 @@ migrate(
       deleteRule: "@request.auth.role = 'master' || @request.auth.role = 'admin'",
       fields: [
         { name: 'user_id', type: 'relation', collectionId: '_pb_users_auth_', maxSelect: 1 },
-        { name: 'service_id', type: 'relation', collectionId: services.id, maxSelect: 1 },
+        {
+          name: 'service_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('services').id,
+          maxSelect: 1,
+        },
         { name: 'status', type: 'text' },
         { name: 'details', type: 'text' },
         { name: 'estimated_price', type: 'number' },
@@ -419,7 +450,12 @@ migrate(
         { name: 'title', type: 'text', required: true },
         { name: 'slug', type: 'text' },
         { name: 'description', type: 'text' },
-        { name: 'course_id', type: 'relation', collectionId: courses.id, maxSelect: 1 },
+        {
+          name: 'course_id',
+          type: 'relation',
+          collectionId: app.findCollectionByNameOrId('courses').id,
+          maxSelect: 1,
+        },
         { name: 'start_date', type: 'date' },
         { name: 'end_date', type: 'date' },
         { name: 'status', type: 'text' },
