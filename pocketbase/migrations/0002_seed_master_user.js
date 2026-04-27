@@ -1,8 +1,8 @@
 migrate(
   (app) => {
-    const users = app.findCollectionByNameOrId('users')
+    const users = app.findCollectionByNameOrId('_pb_users_auth_')
     try {
-      app.findAuthRecordByEmail('users', 'ias2371@gmail.com')
+      app.findAuthRecordByEmail('_pb_users_auth_', 'ias2371@gmail.com')
       return // User already exists
     } catch (_) {}
 
@@ -17,7 +17,7 @@ migrate(
   },
   (app) => {
     try {
-      const record = app.findAuthRecordByEmail('users', 'ias2371@gmail.com')
+      const record = app.findAuthRecordByEmail('_pb_users_auth_', 'ias2371@gmail.com')
       app.delete(record)
     } catch (_) {}
   },

@@ -1,6 +1,6 @@
 migrate(
   (app) => {
-    const col = app.findCollectionByNameOrId('users')
+    const col = app.findCollectionByNameOrId('_pb_users_auth_')
     if (!col.fields.getByName('role')) {
       col.fields.add(new TextField({ name: 'role' }))
     }
@@ -13,7 +13,7 @@ migrate(
     app.save(col)
   },
   (app) => {
-    const col = app.findCollectionByNameOrId('users')
+    const col = app.findCollectionByNameOrId('_pb_users_auth_')
     if (col.fields.getByName('role')) {
       col.fields.removeByName('role')
     }
