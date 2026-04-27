@@ -227,12 +227,27 @@ export default function Header() {
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="icon" className="rounded-full">
-                    <User className="h-5 w-5" />
+                  <Button variant="outline" size="icon" className="rounded-full overflow-hidden">
+                    {profile?.avatarUrl ? (
+                      <img
+                        src={profile.avatarUrl}
+                        alt="Avatar"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <User className="h-5 w-5" />
+                    )}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <div className="flex items-center justify-start gap-2 p-2">
+                    {profile?.avatarUrl && (
+                      <img
+                        src={profile.avatarUrl}
+                        alt="Avatar"
+                        className="h-10 w-10 rounded-full object-cover"
+                      />
+                    )}
                     <div className="flex flex-col space-y-1 leading-none">
                       {profile?.name && <p className="font-medium">{profile.name}</p>}
                       {user.email && (

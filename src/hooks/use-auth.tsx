@@ -6,6 +6,7 @@ export interface Profile {
   email: string
   name: string | null
   role: string
+  avatarUrl: string | null
 }
 
 interface AuthContextType {
@@ -41,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       email: record.email,
       name: record.name,
       role: record.role || 'user',
+      avatarUrl: record.avatar ? pb.files.getURL(record, record.avatar) : null,
     }
   }
 

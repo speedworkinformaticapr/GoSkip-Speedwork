@@ -45,6 +45,7 @@ import { NotificationBell } from './NotificationBell'
 import { supabase } from '@/lib/supabase/client'
 import { useSystemData } from '@/hooks/use-system-data'
 import { MapPin, Instagram, Facebook, Youtube } from 'lucide-react'
+import pb from '@/lib/pocketbase/client'
 
 const FIXED_LINKS_END = [
   { key: 'nav.blog', label: 'Blog', path: '/blog', icon: FileText },
@@ -359,10 +360,20 @@ export function Navbar() {
                     className="rounded-full px-2 pl-3 h-10 gap-2 hover:bg-[#1B7D3A]/10 hover:text-[#1B7D3A] transition-colors group"
                   >
                     <span className="text-sm font-bold truncate max-w-[100px]">
-                      {user.user_metadata?.name?.split(' ')[0] || 'Atleta'}
+                      {user.name?.split(' ')[0] ||
+                        user.user_metadata?.name?.split(' ')[0] ||
+                        'Atleta'}
                     </span>
-                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[#1B7D3A] group-hover:bg-[#1B7D3A] group-hover:text-white transition-colors">
-                      <UserIcon className="w-3.5 h-3.5" />
+                    <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-[#1B7D3A] group-hover:bg-[#1B7D3A] group-hover:text-white transition-colors overflow-hidden">
+                      {pb.authStore.record?.avatar ? (
+                        <img
+                          src={pb.files.getURL(pb.authStore.record, pb.authStore.record.avatar)}
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <UserIcon className="w-3.5 h-3.5" />
+                      )}
                     </div>
                   </Button>
                 </DropdownMenuTrigger>
@@ -371,12 +382,20 @@ export function Navbar() {
                   className="w-64 mt-2 p-2 bg-white/95 dark:bg-background/95 backdrop-blur-md border-border/50 shadow-xl rounded-xl animate-in fade-in zoom-in-95 duration-200"
                 >
                   <div className="flex items-center gap-3 p-3 mb-2 bg-muted/50 rounded-lg">
-                    <div className="w-10 h-10 rounded-full bg-[#1B7D3A]/10 flex items-center justify-center text-[#1B7D3A]">
-                      <UserIcon className="w-5 h-5" />
+                    <div className="w-10 h-10 rounded-full bg-[#1B7D3A]/10 flex items-center justify-center text-[#1B7D3A] overflow-hidden">
+                      {pb.authStore.record?.avatar ? (
+                        <img
+                          src={pb.files.getURL(pb.authStore.record, pb.authStore.record.avatar)}
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <UserIcon className="w-5 h-5" />
+                      )}
                     </div>
                     <div className="flex flex-col overflow-hidden">
                       <span className="font-bold text-sm truncate">
-                        {user.user_metadata?.name || 'Atleta'}
+                        {user.name || user.user_metadata?.name || 'Atleta'}
                       </span>
                       <span className="text-xs text-muted-foreground truncate">{user.email}</span>
                     </div>
@@ -490,12 +509,20 @@ export function Navbar() {
 
                 {user && (
                   <div className="flex items-center gap-3 p-4 bg-white/50 dark:bg-black/20 rounded-2xl border border-border/50 shadow-sm backdrop-blur-sm">
-                    <div className="w-12 h-12 rounded-full bg-[#1B7D3A]/10 flex items-center justify-center text-[#1B7D3A] shrink-0">
-                      <UserIcon className="w-6 h-6" />
+                    <div className="w-12 h-12 rounded-full bg-[#1B7D3A]/10 flex items-center justify-center text-[#1B7D3A] shrink-0 overflow-hidden">
+                      {pb.authStore.record?.avatar ? (
+                        <img
+                          src={pb.files.getURL(pb.authStore.record, pb.authStore.record.avatar)}
+                          alt="Avatar"
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <UserIcon className="w-6 h-6" />
+                      )}
                     </div>
                     <div className="flex flex-col overflow-hidden">
                       <span className="font-bold text-base truncate">
-                        {user.user_metadata?.name || 'Atleta'}
+                        {user.name || user.user_metadata?.name || 'Atleta'}
                       </span>
                       <span className="text-xs text-muted-foreground truncate">{user.email}</span>
                     </div>
