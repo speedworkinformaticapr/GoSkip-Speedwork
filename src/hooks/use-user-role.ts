@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from './use-auth'
-import { supabase } from '@/lib/supabase/client'
 
 export function useUserRole() {
-  const { user } = useAuth()
+  const { user, profile } = useAuth()
   const [isAdmin, setIsAdmin] = useState(false)
   const [isClubAdmin, setIsClubAdmin] = useState(false)
   const [clubId, setClubId] = useState<string | null>(null)
@@ -22,43 +21,25 @@ export function useUserRole() {
         return
       }
 
-      // Check global admin
+      // Check global admin based on emails or master role
       const adminEmails = ['ias2371@gmail.com', 'souzaivan31@gmail.com', 'admin@footgolfpr.com.br']
-      const userIsAdmin = adminEmails.includes(user.email || '')
+      const userIsAdmin =
+        adminEmails.includes(user.email || '') ||
+        profile?.role === 'master' ||
+        profile?.role === 'admin'
 
-      try {
-        const { data } = await supabase
-          .from('profiles')
-          .select('is_club_admin, club_id')
-          .eq('id', user.id)
-          .maybeSingle()
-
-        if (mounted) {
-          setIsAdmin(userIsAdmin)
-          if (data) {
-            setIsClubAdmin(!!data.is_club_admin)
-            setClubId(data.club_id)
-          } else {
-            setIsClubAdmin(false)
-            setClubId(null)
-          }
-          setLoading(false)
-        }
-      } catch (e) {
-        // If athlete record doesn't exist, ignore and just set admin roles
-        if (mounted) {
-          setIsAdmin(userIsAdmin)
-          setIsClubAdmin(false)
-          setClubId(null)
-          setLoading(false)
-        }
+      if (mounted) {
+        setIsAdmin(userIsAdmin)
+        setIsClubAdmin(profile?.role === 'club' || profile?.role === 'club_admin')
+        setClubId(user.club_id || null)
+        setLoading(false)
       }
     }
     checkRoles()
     return () => {
       mounted = false
     }
-  }, [user])
+  }, [user, profile])
 
   return { isAdmin, isClubAdmin, clubId, loading }
 }
