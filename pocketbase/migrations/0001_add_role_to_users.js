@@ -1,6 +1,6 @@
 migrate(
   (app) => {
-    const users = app.findCollectionByNameOrId('_pb_users_auth_')
+    const users = app.findCollectionByNameOrId('users')
 
     if (!users.fields.getByName('role')) {
       users.fields.add(
@@ -22,7 +22,7 @@ migrate(
     app.save(users)
   },
   (app) => {
-    const users = app.findCollectionByNameOrId('_pb_users_auth_')
+    const users = app.findCollectionByNameOrId('users')
     users.fields.removeByName('role')
 
     users.listRule = 'id = @request.auth.id'
