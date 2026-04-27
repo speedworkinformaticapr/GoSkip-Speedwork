@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { SectionRenderer } from '@/components/sections/SectionRenderer'
 import { useSeo } from '@/hooks/use-seo'
 import { HeroCarousel } from '@/components/sections/HeroCarousel'
-import { supabase } from '@/lib/supabase/client'
+import pb from '@/lib/pocketbase/client'
+import { useRealtime } from '@/hooks/use-realtime'
 
 export default function Index() {
   const [sections, setSections] = useState<any[]>([])
@@ -14,42 +15,27 @@ export default function Index() {
     keywords: 'footgolf, esporte, paraná, torneio, campeonato, ranking',
   })
 
-  useEffect(() => {
-    const fetchSections = async () => {
-      try {
-        if (!import.meta.env.VITE_SUPABASE_URL) {
-          setSections([])
-          setLoading(false)
-          return
-        }
-
-        const { data, error } = await supabase
-          .from('sections')
-          .select('*')
-          .order('order', { ascending: true })
-
-        if (error) {
-          // Gracefully handle Supabase API errors instead of throwing
-          console.warn('Failed to fetch sections:', error.message || error)
-          setSections([])
-          return
-        }
-
-        setSections(data || [])
-      } catch (error: any) {
-        // Robust error handling to catch unhandled promise rejections or TypeErrors (Failed to fetch)
-        console.warn(
-          'Network or unexpected error while fetching sections:',
-          error?.message || 'Failed to fetch',
-        )
-        setSections([])
-      } finally {
-        setLoading(false)
-      }
+  const fetchSections = async () => {
+    try {
+      const data = await pb.collection('sections').getFullList({
+        sort: 'order',
+      })
+      setSections(data || [])
+    } catch (error: any) {
+      console.warn('Failed to fetch sections:', error?.message || 'Failed to fetch')
+      setSections([])
+    } finally {
+      setLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchSections()
   }, [])
+
+  useRealtime('sections', () => {
+    fetchSections()
+  })
 
   if (loading) {
     return (

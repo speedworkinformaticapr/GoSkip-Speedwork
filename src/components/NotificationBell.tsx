@@ -16,10 +16,10 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useNotificationStore } from '@/stores/useNotificationStore'
 import { useAuth } from '@/hooks/use-auth'
 import { useToast } from '@/hooks/use-toast'
-import { supabase } from '@/lib/supabase/client'
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
+import { useRealtime } from '@/hooks/use-realtime'
 
 interface NotificationBellProps {
   mobile?: boolean
@@ -41,35 +41,27 @@ export function NotificationBell({ mobile }: NotificationBellProps) {
 
   useEffect(() => {
     if (!user) return
-
     fetchNotifications(user.id)
+  }, [user, fetchNotifications])
 
-    const channel = supabase
-      .channel('public-notifications')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'notifications',
-          filter: `user_id=eq.${user.id}`,
-        },
-        (payload) => {
-          const newNotif = payload.new as any
-          addNotification(newNotif)
-          toast({
-            title: newNotif.title,
-            description: newNotif.message,
-            className: 'bg-white border-[#1B7D3A] text-foreground',
-          })
-        },
-      )
-      .subscribe()
+  useRealtime(
+    'notifications',
+    (e) => {
+      if (!user || e.record.user_id !== user.id) return
 
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [user, fetchNotifications, addNotification, toast])
+      if (e.action === 'create') {
+        addNotification(e.record as any)
+        toast({
+          title: e.record.title,
+          description: e.record.message,
+          className: 'bg-white border-[#1B7D3A] text-foreground',
+        })
+      } else {
+        fetchNotifications(user.id)
+      }
+    },
+    !!user,
+  )
 
   const getIcon = (type: string) => {
     switch (type) {
@@ -173,7 +165,7 @@ export function NotificationBell({ mobile }: NotificationBellProps) {
                         {notif.title}
                       </h4>
                       <span className="text-[10px] text-muted-foreground whitespace-nowrap">
-                        {formatDistanceToNow(new Date(notif.created_at), {
+                        {formatDistanceToNow(new Date(notif.created || new Date()), {
                           addSuffix: true,
                           locale: ptBR,
                         })}

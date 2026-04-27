@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { supabase } from '@/lib/supabase/client'
+import pb from '@/lib/pocketbase/client'
 
 export interface Notification {
   id: string
@@ -8,7 +8,7 @@ export interface Notification {
   message: string
   type: string
   is_read: boolean
-  created_at: string
+  created: string
 }
 
 interface NotificationStore {
@@ -26,25 +26,24 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
   unreadCount: 0,
 
   fetchNotifications: async (userId) => {
-    const { data, error } = await supabase
-      .from('notifications')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(50)
-
-    if (!error && data) {
-      set({
-        notifications: data as Notification[],
-        unreadCount: data.filter((n) => !n.is_read).length,
+    try {
+      const data = await pb.collection('notifications').getList(1, 50, {
+        filter: `user_id = "${userId}"`,
+        sort: '-created',
       })
+
+      set({
+        notifications: data.items as any as Notification[],
+        unreadCount: data.items.filter((n: any) => !n.is_read).length,
+      })
+    } catch (e) {
+      console.error(e)
     }
   },
 
   markAsRead: async (id) => {
-    const { error } = await supabase.from('notifications').update({ is_read: true }).eq('id', id)
-
-    if (!error) {
+    try {
+      await pb.collection('notifications').update(id, { is_read: true })
       set((state) => {
         const updated = state.notifications.map((n) => (n.id === id ? { ...n, is_read: true } : n))
         return {
@@ -52,28 +51,29 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
           unreadCount: updated.filter((n) => !n.is_read).length,
         }
       })
+    } catch (e) {
+      console.error(e)
     }
   },
 
   markAllAsRead: async (userId) => {
-    const { error } = await supabase
-      .from('notifications')
-      .update({ is_read: true })
-      .eq('user_id', userId)
-      .eq('is_read', false)
-
-    if (!error) {
+    try {
+      const unread = get().notifications.filter((n) => !n.is_read)
+      await Promise.all(
+        unread.map((n) => pb.collection('notifications').update(n.id, { is_read: true })),
+      )
       set((state) => ({
         notifications: state.notifications.map((n) => ({ ...n, is_read: true })),
         unreadCount: 0,
       }))
+    } catch (e) {
+      console.error(e)
     }
   },
 
   deleteNotification: async (id) => {
-    const { error } = await supabase.from('notifications').delete().eq('id', id)
-
-    if (!error) {
+    try {
+      await pb.collection('notifications').delete(id)
       set((state) => {
         const filtered = state.notifications.filter((n) => n.id !== id)
         return {
@@ -81,6 +81,8 @@ export const useNotificationStore = create<NotificationStore>((set, get) => ({
           unreadCount: filtered.filter((n) => !n.is_read).length,
         }
       })
+    } catch (e) {
+      console.error(e)
     }
   },
 
